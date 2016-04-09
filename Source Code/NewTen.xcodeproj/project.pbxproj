@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F18FA4801CB8B7920013F7A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FA47F1CB8B7920013F7A7 /* AppDelegate.m */; };
+		F18FA4851CB8B7D90013F7A7 /* HammerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FA4841CB8B7D90013F7A7 /* HammerController.m */; };
+		F18FA4891CB8B7EE0013F7A7 /* PackageController.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FA4881CB8B7EE0013F7A7 /* PackageController.m */; };
 		F1B6C557091C7DCD0044B483 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		F1B6C558091C7DCD0044B483 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		F1B6C559091C7DCD0044B483 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F579C4AC0227883001000104 /* Credits.rtf */; };
 		F1B6C55A091C7DCD0044B483 /* NewTen.icns in Resources */ = {isa = PBXBuildFile; fileRef = F53BDED502278DFC01000104 /* NewTen.icns */; };
 		F1B6C55B091C7DCD0044B483 /* Instructions.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F113903B050B0E0D00000103 /* Instructions.rtf */; };
 		F1B6C55D091C7DCD0044B483 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
-		F1B6C55E091C7DCD0044B483 /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = F579C4A90227876101000104 /* Controller.m */; };
 		F1B6C562091C7DCD0044B483 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		F1B6C5E9091C86C20044B483 /* NewtonConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B6C5E8091C86C20044B483 /* NewtonConnection.m */; };
 /* End PBXBuildFile section */
@@ -25,13 +27,17 @@
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = SOURCE_ROOT; };
 		F113903B050B0E0D00000103 /* Instructions.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Instructions.rtf; path = ../Instructions.rtf; sourceTree = SOURCE_ROOT; };
 		F1172C10091C7ADF0016F2FD /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
-		F1B6C566091C7DCD0044B483 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		F18FA47E1CB8B7920013F7A7 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F18FA47F1CB8B7920013F7A7 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F18FA4831CB8B7D90013F7A7 /* HammerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HammerController.h; sourceTree = "<group>"; };
+		F18FA4841CB8B7D90013F7A7 /* HammerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HammerController.m; sourceTree = "<group>"; };
+		F18FA4871CB8B7EE0013F7A7 /* PackageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackageController.h; sourceTree = "<group>"; };
+		F18FA4881CB8B7EE0013F7A7 /* PackageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PackageController.m; sourceTree = "<group>"; };
+		F1B6C566091C7DCD0044B483 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F1B6C567091C7DCD0044B483 /* NewTen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewTen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1B6C5E7091C86C20044B483 /* NewtonConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewtonConnection.h; sourceTree = "<group>"; };
 		F1B6C5E8091C86C20044B483 /* NewtonConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewtonConnection.m; sourceTree = "<group>"; };
 		F53BDED502278DFC01000104 /* NewTen.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = NewTen.icns; sourceTree = SOURCE_ROOT; };
-		F579C4A80227876101000104 /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = SOURCE_ROOT; };
-		F579C4A90227876101000104 /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = SOURCE_ROOT; };
 		F579C4AC0227883001000104 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -50,8 +56,12 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				F579C4A80227876101000104 /* Controller.h */,
-				F579C4A90227876101000104 /* Controller.m */,
+				F18FA47E1CB8B7920013F7A7 /* AppDelegate.h */,
+				F18FA47F1CB8B7920013F7A7 /* AppDelegate.m */,
+				F18FA4871CB8B7EE0013F7A7 /* PackageController.h */,
+				F18FA4881CB8B7EE0013F7A7 /* PackageController.m */,
+				F18FA4831CB8B7D90013F7A7 /* HammerController.h */,
+				F18FA4841CB8B7D90013F7A7 /* HammerController.m */,
 				F1B6C5E7091C86C20044B483 /* NewtonConnection.h */,
 				F1B6C5E8091C86C20044B483 /* NewtonConnection.m */,
 			);
@@ -134,10 +144,18 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = F1E7DECD08E3D2310012994E /* Build configuration list for PBXProject "NewTen" */;
+			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* NewTen */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				F1B6C555091C7DCD0044B483 /* NewTen */,
 			);
@@ -165,8 +183,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1B6C55D091C7DCD0044B483 /* main.m in Sources */,
-				F1B6C55E091C7DCD0044B483 /* Controller.m in Sources */,
 				F1B6C5E9091C86C20044B483 /* NewtonConnection.m in Sources */,
+				F18FA4801CB8B7920013F7A7 /* AppDelegate.m in Sources */,
+				F18FA4851CB8B7D90013F7A7 /* HammerController.m in Sources */,
+				F18FA4891CB8B7EE0013F7A7 /* PackageController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,11 +228,11 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = NewTen;
-				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
@@ -234,10 +254,11 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = NewTen;
-				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
@@ -250,8 +271,8 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.pch;
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				SDKROOT = /Developer/SDKs/MacOSX10.2.8.sdk;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = "";
 			};
 			name = Debug;
 		};
