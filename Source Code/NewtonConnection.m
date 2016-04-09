@@ -178,8 +178,17 @@
 	//ErrHandler("User interrupted, connection stopped!!");
 }
 
-
 - (int)receiveFrame:(unsigned char*)frame
+{
+	int result = [self receiveFrame:frame length:NULL];
+	if (result == 0) {
+		if ( frame[1] == '\x02' )
+			return -1;//ErrHandler("Newton device disconnected, connection stopped!!");
+	}
+	return result;
+}
+
+- (int)receiveFrame:(unsigned char*)frame length:(int *)length 
 {
 	//char errMesg[] = "Error in reading from Newton device, connection stopped!!";
 	int state;
@@ -298,9 +307,10 @@
 	if ( fcsWord / 256 != buf )
 		return -1;
 
-	if ( frame[1] == '\x02' )
-		return -1;//ErrHandler("Newton device disconnected, connection stopped!!");
-		
+	if (length != NULL) {
+		*length = i;
+	}
+	
 	return 0;
 }
 

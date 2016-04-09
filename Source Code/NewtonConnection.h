@@ -15,6 +15,7 @@
 
 - (void)cancel;
 - (void)disconnect;
+- (int)receiveFrame:(unsigned char*)frame length:(int *)length;
 - (int)receiveFrame:(unsigned char*)frame;
 - (BOOL)sendFrame:(unsigned char*)info header:(unsigned char*)head length:(int)infoLen;
 - (void)sendLAFrame:(unsigned char)seqNo;
