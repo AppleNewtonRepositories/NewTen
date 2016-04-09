@@ -318,18 +318,19 @@
 		return NO;
 	
 	// Send frame head 
-	
-	for ( i = 0; i <= head[0]; i++ ) 
-	{
-		[self calculateFCSWithWords:&fcsWord octet:head[i]];
-		
-		if ( write(newtFD, &head[i], 1) < 0 )
-			return NO;
-			
-		if ( head[i] == frameEnd[0] ) 
+	if (head != NULL) {
+		for ( i = 0; i <= head[0]; i++ ) 
 		{
+			[self calculateFCSWithWords:&fcsWord octet:head[i]];
+		
 			if ( write(newtFD, &head[i], 1) < 0 )
 				return NO;
+			
+			if ( head[i] == frameEnd[0] ) 
+			{
+				if ( write(newtFD, &head[i], 1) < 0 )
+					return NO;
+			}
 		}
 	}
 	
