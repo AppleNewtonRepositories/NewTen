@@ -377,18 +377,58 @@ enum {
 - (NSData *) dumpROMOfLength:(uint32_t)length {
   NSMutableData *romData = [[[NSMutableData alloc] initWithCapacity:length] autorelease];
   
-  uint32_t *recvData = (uint32_t *)&_recvBuf[1];
+  uint32_t *recvData = NULL;
   uint32_t addr = 0;
   
   AppDelegate *delegate = [self delegate];
   [delegate updateProgressMax:[NSNumber numberWithInt:length]];
+
+  uint8_t readSize;
+  if (_romVersion < 0x00020000) {
+    // The v1.x devices seem happy sending all of the data
+    // at once.
+    [self sendReadMemoryCommandWithAddress:addr length:length readResult:NO];
+    readSize = 128;
+  }
+  else {
+    // The v2.x devices start sending a weird stream of 5f0000 when
+    // we ask for too much memory. So we'll be conservative and slow...
+    readSize = 12;
+  }
   
-#define READ_SIZE 12
   while (addr < length) {
-    [self sendReadMemoryCommandWithAddress:addr length:READ_SIZE];
+    uint8_t chunkLength = readSize;
     
-    [romData appendBytes:recvData length:READ_SIZE];
-    addr += READ_SIZE;
+    if (_romVersion >= 0x00020000) {
+      [self sendReadMemoryCommandWithAddress:addr length:readSize];
+      // We're skipping the ResponseResult byte.
+      recvData = (uint32_t *)&_recvBuf[1];
+    }
+    else {
+      [self readResponseOfLength:readSize];
+      int startIndex = 0;
+      
+      if (addr == 0x00) {
+        // Our first chunk read, we need to find the
+        // ResponseResult byte, and start copying data
+        // after it.  Subsequent chunks won't have any
+        // markers.
+        while (_recvBuf[startIndex] != ResponseResult) {
+          startIndex++;
+          if (startIndex >= sizeof(_recvBuf)) {
+            NSLog(@"Couldn't find ResponseResult marker");
+            return nil;
+          }
+        }
+        startIndex += 1;
+        chunkLength -= startIndex;
+      }
+
+      recvData = (uint32_t *)&_recvBuf[startIndex];
+    }
+    
+    [romData appendBytes:recvData length:chunkLength];
+    addr += chunkLength;
     [delegate updateProgress:[NSNumber numberWithInt:addr]];
   }
   
