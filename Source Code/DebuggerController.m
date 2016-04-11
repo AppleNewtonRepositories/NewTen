@@ -50,7 +50,7 @@ enum {
   if (_connection) {
     [_connection release], _connection = nil;
   }
-
+  
   [super dealloc];
 }
 
@@ -76,35 +76,35 @@ enum {
 
 #pragma mark - Reading
 - (BOOL) readFrame {
-	int status = 0;
-	
-	memset(_recvBuf, 0x00, sizeof(_recvBuf));
-	_recvBufLen = 0;
-	
-	while ( (status = [_connection receiveFrame:_recvBuf length:&_recvBufLen]) < 0 )
-	{
-		if ( _giveUp ) {
-			[[NSException exceptionWithName:@"DebuggerControllerCancelled" reason:@"_giveUp == true" userInfo:nil] raise];
-			return NO;
-		}
-	}
-	
-	return YES;
+  int status = 0;
+  
+  memset(_recvBuf, 0x00, sizeof(_recvBuf));
+  _recvBufLen = 0;
+  
+  while ( (status = [_connection receiveFrame:_recvBuf length:&_recvBufLen]) < 0 )
+  {
+    if ( _giveUp ) {
+      [[NSException exceptionWithName:@"DebuggerControllerCancelled" reason:@"_giveUp == true" userInfo:nil] raise];
+      return NO;
+    }
+  }
+  
+  return YES;
 }
 
 - (BOOL) readDataForResponse:(uint8_t)response {
-	do {
-		BOOL success = [self readFrame];
-		if (success == NO) {
-			return NO;
-		}
-		
-		if (_recvBuf[0] == response) {
-			return YES;
-		}
-	}
-	while (_giveUp == false);
-	return NO;
+  do {
+    BOOL success = [self readFrame];
+    if (success == NO) {
+      return NO;
+    }
+    
+    if (_recvBuf[0] == response) {
+      return YES;
+    }
+  }
+  while (_giveUp == false);
+  return NO;
 }
 
 #pragma mark - Sending
@@ -119,7 +119,7 @@ enum {
     }
     memcpy(&_sendBuf[1], body, length);
   }
-
+  
   [_connection sendFrame:&_sendBuf[0] header:NULL length:length + 1];
   if (_giveUp == true) {
     [[NSException exceptionWithName:@"DebuggerControllerCancelled" reason:@"_giveUp == true" userInfo:nil] raise];
@@ -140,11 +140,11 @@ enum {
   uint8_t goCommand[] = { 0x00, 0x00, 0x00, 0x00 };
   [self sendFrameWithCommand:CommandGo body:&goCommand[0] length:sizeof(goCommand)];
   [self readDataForResponse:ResponseResult];
-/*
-  uint8_t execCommand[] = { 0x10, 0x01 };
-  [self sendFrameWithCommand:CommandExecute body:&execCommand[0] length:sizeof(execCommand)];
-  [self readDataForResponse:ResponseResult];
- */
+  /*
+   uint8_t execCommand[] = { 0x10, 0x01 };
+   [self sendFrameWithCommand:CommandExecute body:&execCommand[0] length:sizeof(execCommand)];
+   [self readDataForResponse:ResponseResult];
+   */
 }
 
 - (void) sendStopCommand {
@@ -168,60 +168,73 @@ enum {
   [self readDataForResponse:ResponseResult];
 }
 
-#pragma mark -
+#pragma mark - Hardware Info helpers
+- (NSString *) descriptionForManufacturer:(uint32_t)romManufacturer {
+  switch (romManufacturer) {
+    case 0x01000000:
+      return @"Apple";
+    case 0x10000100:
+      return @"Sharp";
+    case 0x01000200:
+      return @"Motorola";
+    default:
+      return [NSString stringWithFormat:@"Unknown (%08x)", romManufacturer];
+  }
+}
+
+- (NSString *) descriptionForHardwareType:(uint32_t)hardwareType
+                         fromManufacturer:(uint32_t)manufacturer
+{
+  switch (hardwareType) {
+    case 0x10001000:
+      return @"MessagePad (Junior)";
+    case 0x10002000:
+      return @"Bic";
+    case 0x10003000:
+      return @"MessagePad 2000/2100 (Senior)";
+    case 0x10004000:
+      return @"eMate 300";
+    case 0x00726377:
+    {
+      if (manufacturer == 0x01000200) {
+        return @"Marco";
+      }
+      else {
+        return @"MessagePad 110/120/130 (Lindy)";
+      }
+    }
+    default:
+      return [NSString stringWithFormat:@"Unknown (%08x)", hardwareType];
+  }
+}
+
+- (NSString *) descriptionForROMVersion:(uint32_t)romVersion {
+  return [NSString stringWithFormat:@"v%i.%i", romVersion >> 16, romVersion & 0xffff];
+}
+
 - (NSString *) deviceDescription {
   uint32_t *recvData = (uint32_t *)&_recvBuf[1];
-
-  NSMutableString *deviceDescription = [[NSMutableString alloc] init];
-
+  
   // Read gROMManufacturer
   [self sendReadMemoryCommandWithAddress:0x000013f0 length:4];
   uint32_t romManufacturer = HTONL(recvData[0]);
-  switch (romManufacturer) {
-    case 0x01000000:
-      [deviceDescription appendString:@"Apple"];
-      break;
-    case 0x10000100:
-      [deviceDescription appendString:@"Sharp"];
-      break;
-    default:
-      [deviceDescription appendFormat:@"Unknown (%08x)", romManufacturer];
-      break;
-  }
-  [deviceDescription appendString:@" "];
-
+  
   // Read gHardwareType
   [self sendReadMemoryCommandWithAddress:0x000013ec length:4];
   uint32_t hardwareType = HTONL(recvData[0]);
-  switch (hardwareType) {
-    case 0x10001000:
-      [deviceDescription appendString:@"MessagePad"];
-      break;
-    case 0x10002000:
-      [deviceDescription appendString:@"Bic"];
-      break;
-    case 0x10003000:
-      [deviceDescription appendString:@"MessagePad 2000/2100"];
-      break;
-    case 0x10004000:
-      [deviceDescription appendString:@"eMate 300"];
-      break;
-    case 0x00726377:
-      [deviceDescription appendString:@"Lindy"];
-      break;
-    default:
-      [deviceDescription appendFormat:@"Unknown (%08x)", hardwareType];
-      break;
-  }
   
-  [deviceDescription appendString:@" "];
-
   // Read gROMVersion
   [self sendReadMemoryCommandWithAddress:0x000013dc length:4];
   uint32_t romVersion = HTONL(recvData[0]);
-  [deviceDescription appendFormat:@"v%i.%i", romVersion >> 16, romVersion & 0xffff];
-
-  return [deviceDescription autorelease];
+  
+  NSArray *components = @[
+                          [self descriptionForManufacturer:romManufacturer],
+                          [self descriptionForHardwareType:hardwareType fromManufacturer:romManufacturer],
+                          [self descriptionForROMVersion:romVersion],
+                          ];
+  
+  NSString *hardwareInfo = [components componentsJoinedByString:@" "];
+  return hardwareInfo;
 }
 
 - (void) handleHandshake {
@@ -272,13 +285,13 @@ enum {
 
 - (NSData *) dumpROMOfLength:(uint32_t)length {
   NSMutableData *romData = [[[NSMutableData alloc] initWithCapacity:length] autorelease];
-
+  
   uint32_t *recvData = (uint32_t *)&_recvBuf[1];
   uint32_t addr = 0;
   
   AppDelegate *delegate = [self delegate];
   [delegate updateProgressMax:[NSNumber numberWithInt:length]];
-
+  
 #define READ_SIZE 12
   while (addr < length) {
     [self sendReadMemoryCommandWithAddress:addr length:READ_SIZE];
@@ -293,7 +306,7 @@ enum {
 
 #pragma mark -
 - (void) main {
-
+  
   AppDelegate *delegate = [self delegate];
   [delegate showStatusSheet];
   [delegate updateStatus:NSLocalizedString(@"Setting up serial port...", @"Setting up serial port...")];
@@ -307,10 +320,10 @@ enum {
   if (_giveUp == true) {
     goto bail;
   }
-
+  
   @try {
     [self handleHandshake];
-
+    
     [delegate updateStatus:NSLocalizedString(@"Detecting Newton type...", @"Detecting Newton type...")];
     NSString *deviceDescription = [self deviceDescription];
     [delegate updateStatus:deviceDescription];
@@ -320,7 +333,7 @@ enum {
       NSString *humanSize = [NSString stringWithFormat:@" (%i MB)", romSize / 1024 / 1024];
       deviceDescription = [deviceDescription stringByAppendingString:humanSize];
       [delegate updateStatus:deviceDescription];
-
+      
       NSData *romData = [self dumpROMOfLength:romSize];
       if (romData != nil) {
         [delegate saveData:romData withFilename:[deviceDescription stringByAppendingPathExtension:@"rom"]];
@@ -339,7 +352,7 @@ enum {
     }
     @catch (id e) {}
   }
-
+  
 bail:
   
   [_connection cancel];
