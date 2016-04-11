@@ -36,9 +36,9 @@ enum {
   ResponseFatal = 0x5e,
   ResponseResult = 0x5f,
   ResponseError = 0x60,
-  ResponseInquiry = 0x80,
-  ResponsePong = 0x81,
+  ResponsePong = 0x79,
   ResponseReset = 0x7f,
+  ResponseInquiry = 0x80,
 };
 
 @implementation DebuggerController
