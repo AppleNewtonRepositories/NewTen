@@ -83,14 +83,25 @@ enum {
 }
 
 #pragma mark - Reading
-- (BOOL) readFrame {
+- (BOOL) readResponseOfLength:(uint8_t)length {
   int status = 0;
   
   memset(_recvBuf, 0x00, sizeof(_recvBuf));
   _recvBufLen = 0;
   
-  while ( (status = [_connection receiveFrame:_recvBuf length:&_recvBufLen]) < 0 )
+  while ( true )
   {
+    if ([self useBisyncFrames] == YES) {
+      status = [_connection receiveFrame:_recvBuf length:&_recvBufLen];
+    }
+    else {
+      status = [_connection readData:_recvBuf length:length];
+    }
+    
+    if (status >= 0) {
+      break;
+    }
+    
     if ( _giveUp ) {
       [[NSException exceptionWithName:@"DebuggerControllerCancelled" reason:@"_giveUp == true" userInfo:nil] raise];
       return NO;
@@ -100,10 +111,14 @@ enum {
   return YES;
 }
 
-- (BOOL) readDataForResponse:(uint8_t)response {
-  do {
-    BOOL success = [self readFrame];
+- (BOOL) readDataForResponse:(uint8_t)response length:(uint8_t)length {
+  while (true) {
+    BOOL success = [self readResponseOfLength:length];
     if (success == NO) {
+      return NO;
+    }
+    
+    if (_giveUp == true) {
       return NO;
     }
     
@@ -111,8 +126,12 @@ enum {
       return YES;
     }
   }
-  while (_giveUp == false);
+
   return NO;
+}
+
+- (BOOL) readDataForResponse:(uint8_t)response {
+  return [self readDataForResponse:response length:0];
 }
 
 #pragma mark - Sending
