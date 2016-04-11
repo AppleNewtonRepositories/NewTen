@@ -368,11 +368,13 @@ enum {
   }
   @finally {
     // Try to re-enable the Newton
-    [delegate updateStatus:NSLocalizedString(@"Disconnecting", @"Disconnecting")];
-    @try {
-      [self sendGoCommand];
+    if (_romVersion >= 0x00020000) {
+      [delegate updateStatus:NSLocalizedString(@"Disconnecting", @"Disconnecting")];
+      @try {
+        [self sendGoCommand];
+      }
+      @catch (id e) {}
     }
-    @catch (id e) {}
   }
   
 bail:
