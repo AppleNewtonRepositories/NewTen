@@ -225,20 +225,20 @@ enum {
   
   // Read gROMManufacturer
   [self sendReadMemoryCommandWithAddress:0x000013f0 length:4];
-  uint32_t romManufacturer = HTONL(recvData[0]);
+  _romManufacturer = HTONL(recvData[0]);
   
   // Read gHardwareType
   [self sendReadMemoryCommandWithAddress:0x000013ec length:4];
-  uint32_t hardwareType = HTONL(recvData[0]);
+  _hardwareType = HTONL(recvData[0]);
   
   // Read gROMVersion
   [self sendReadMemoryCommandWithAddress:0x000013dc length:4];
-  uint32_t romVersion = HTONL(recvData[0]);
+  _romVersion = HTONL(recvData[0]);
   
   NSArray *components = @[
-                          [self descriptionForManufacturer:romManufacturer],
-                          [self descriptionForHardwareType:hardwareType fromManufacturer:romManufacturer],
-                          [self descriptionForROMVersion:romVersion],
+                          [self descriptionForManufacturer:_romManufacturer],
+                          [self descriptionForHardwareType:_hardwareType fromManufacturer:_romManufacturer],
+                          [self descriptionForROMVersion:_romVersion],
                           ];
   
   NSString *hardwareInfo = [components componentsJoinedByString:@" "];

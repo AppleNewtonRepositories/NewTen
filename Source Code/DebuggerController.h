@@ -15,6 +15,10 @@
   BOOL _useBisyncFrames;
   volatile BOOL _giveUp;
 
+  uint32_t _romManufacturer;
+  uint32_t _hardwareType;
+  uint32_t _romVersion;
+
   uint8_t _sendBuf[MAX_HEAD_LEN + MAX_INFO_LEN];
   uint8_t _recvBuf[MAX_HEAD_LEN + MAX_INFO_LEN];
   int _recvBufLen;
