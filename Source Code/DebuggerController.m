@@ -70,6 +70,14 @@ enum {
   return [[_devicePath retain] autorelease];
 }
 
+- (void) setUseBisyncFrames:(BOOL)useBisyncFrames {
+  _useBisyncFrames = useBisyncFrames;
+}
+
+- (BOOL) useBisyncFrames {
+  return _useBisyncFrames;
+}
+
 - (AppDelegate *) delegate {
   return (id)[NSApp delegate];
 }
