@@ -326,7 +326,14 @@ enum {
   [delegate showStatusSheet];
   [delegate updateStatus:NSLocalizedString(@"Setting up serial port...", @"Setting up serial port...")];
   
-  _connection = [[NewtonConnection connectionWithDevicePath:[self devicePath] speed:57600] retain];
+  int speed;
+  if (_useBisyncFrames == true) {
+    speed = 57600;
+  }
+  else {
+    speed = 19200;
+  }
+  _connection = [[NewtonConnection connectionWithDevicePath:[self devicePath] speed:speed] retain];
   
   // Wait for Newton to connect
   
