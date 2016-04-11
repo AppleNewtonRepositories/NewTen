@@ -135,7 +135,7 @@ enum {
 }
 
 #pragma mark - Sending
-- (void) sendFrameWithCommand:(uint8_t)command body:(uint8_t *)body length:(uint8_t)length {
+- (void) sendRequestWithCommand:(uint8_t)command body:(uint8_t *)body length:(uint8_t)length {
   memset(_sendBuf, 0x00, sizeof(_sendBuf));
   _sendBuf[0] = command;
   
@@ -147,36 +147,38 @@ enum {
     memcpy(&_sendBuf[1], body, length);
   }
   
-  [_connection sendFrame:&_sendBuf[0] header:NULL length:length + 1];
+  if ([self useBisyncFrames] == YES) {
+    [_connection sendFrame:&_sendBuf[0] header:NULL length:length + 1];
+  }
+  else {
+    [_connection sendData:&_sendBuf[0] length:length + 1];
+  }
+  
   if (_giveUp == true) {
     [[NSException exceptionWithName:@"DebuggerControllerCancelled" reason:@"_giveUp == true" userInfo:nil] raise];
   }
 }
 
-- (void) sendFrameWithCommand:(uint8_t)command {
-  [self sendFrameWithCommand:command body:NULL length:0];
+#pragma mark - Debugger commands
+- (void) sendRequestWithCommand:(uint8_t)command {
+  [self sendRequestWithCommand:command body:NULL length:0];
 }
 
 - (void) sendCloseCommand {
-  [self sendFrameWithCommand:CommandClose];
+  [self sendRequestWithCommand:CommandClose];
 }
 
 - (void) sendGoCommand {
-  [self sendFrameWithCommand:CommandAck];
+  [self sendRequestWithCommand:CommandAck];
   
   uint8_t goCommand[] = { 0x00, 0x00, 0x00, 0x00 };
-  [self sendFrameWithCommand:CommandGo body:&goCommand[0] length:sizeof(goCommand)];
+  [self sendRequestWithCommand:CommandGo body:&goCommand[0] length:sizeof(goCommand)];
   [self readDataForResponse:ResponseResult];
-  /*
-   uint8_t execCommand[] = { 0x10, 0x01 };
-   [self sendFrameWithCommand:CommandExecute body:&execCommand[0] length:sizeof(execCommand)];
-   [self readDataForResponse:ResponseResult];
-   */
 }
 
 - (void) sendStopCommand {
   uint8_t stopCmd[] = { 'S', 'T', 'O', 'P'};
-  [self sendFrameWithCommand:CommandStop body:&stopCmd[0] length:sizeof(stopCmd)];
+  [self sendRequestWithCommand:CommandStop body:&stopCmd[0] length:sizeof(stopCmd)];
 }
 
 - (void) sendReadMemoryCommandWithAddress:(uint32_t)address length:(uint32_t)length {
@@ -271,14 +273,49 @@ enum {
   return hardwareInfo;
 }
 
-- (void) handleHandshake {
+- (uint32_t) determineROMSize {
+  if (_romVersion < 0x00010002) {
+    // On Junior hardware with 1.0.x and 1.1.x, when we attempt to
+    // read 0x00400000, we only get back 2 bytes (3 with status): 0x5f20002.
+    // I presume this is because we're using readMem instead of
+    // readPhysMem (as the latter reboots the unit), and there is
+    // some weird MMU mappings.
+    // Hopefully there isn't Junior hardware with 8MB ROM - given
+    // Lindy's first shipped with 4MB, this seems likely...
+    return 4 * 1024 * 1024;
+  }
+  
+  uint32_t *recvData = (uint32_t *)&_recvBuf[1];
+  [self sendReadMemoryCommandWithAddress:0 length:4];
+  uint32_t firstWord = recvData[0];
+  
+  uint32_t addr = 1024 * 1024;
+  while (true) {
+    [self sendReadMemoryCommandWithAddress:addr length:4];
+    uint32_t thisWord = recvData[0];
+    if (thisWord == firstWord) {
+      break;
+    }
+    
+    addr += 1024 * 1024;
+    if (addr > 16 * 1024 * 1024) {
+      NSLog(@"Exceeded 16MB. Giving up");
+      addr = 0;
+      break;
+    }
+  }
+  return addr;
+}
+
+#pragma mark - Initial handshaking
+- (void) handleBisyncFrameHandshake {
   // Wait to receive an inquiry
   [self readDataForResponse:ResponseInquiry];
   
   // Send handshake
   [[self delegate] updateStatus:NSLocalizedString(@"Handshaking...", @"Handshaking...")];
   uint8_t handshake[] = {0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x82, 0x00, 0x00};
-  [self sendFrameWithCommand:CommandUnknown body:&handshake[0] length:sizeof(handshake)];
+  [self sendRequestWithCommand:CommandUnknown body:&handshake[0] length:sizeof(handshake)];
   
   // We expect two result frames
   [self readDataForResponse:ResponseResult];
