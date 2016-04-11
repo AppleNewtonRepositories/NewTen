@@ -347,29 +347,33 @@ enum {
   [self readDataForResponse:ResponseStopWithStatus];
 }
 
-- (uint32_t) determineROMSize {
-  uint32_t *recvData = (uint32_t *)&_recvBuf[1];
-  [self sendReadMemoryCommandWithAddress:0 length:4];
-  uint32_t firstWord = recvData[0];
-  
-  uint32_t addr = 1024 * 1024;
+- (void) handlePingPongHandshake {
+  [[self delegate] updateStatus:NSLocalizedString(@"Handshaking...", @"Handshaking...")];
+
   while (true) {
-    [self sendReadMemoryCommandWithAddress:addr length:4];
-    uint32_t thisWord = recvData[0];
-    if (thisWord == firstWord) {
+    if (_giveUp == true) {
       break;
     }
     
-    addr += 1024 * 1024;
-    if (addr > 16 * 1024 * 1024) {
-      NSLog(@"Exceeded 16MB. Giving up");
-      addr = 0;
+    [self sendRequestWithCommand:CommandPing];
+
+    BOOL success = [self readDataForResponse:ResponsePong length:1];
+    if (success == YES) {
       break;
     }
   }
-  return addr;
 }
 
+- (void) handleHandshake {
+  if ([self useBisyncFrames] == YES) {
+    [self handleBisyncFrameHandshake];
+  }
+  else {
+    [self handlePingPongHandshake];
+  }
+}
+
+#pragma mark - ROM dumper
 - (NSData *) dumpROMOfLength:(uint32_t)length {
   NSMutableData *romData = [[[NSMutableData alloc] initWithCapacity:length] autorelease];
   
