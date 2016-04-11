@@ -15,11 +15,18 @@
 
 - (void)cancel;
 - (void)disconnect;
+
+- (BOOL)sendData:(unsigned char *)data length:(int *)length;
+- (int)readData:(unsigned char *)buf length:(int)length;
+
 - (int)receiveFrame:(unsigned char*)frame length:(int *)length;
 - (int)receiveFrame:(unsigned char*)frame;
+
 - (BOOL)sendFrame:(unsigned char*)info header:(unsigned char*)head length:(int)infoLen;
+
 - (void)sendLAFrame:(unsigned char)seqNo;
 - (void)sendLTFrame:(unsigned char*)info length:(int)infoLen seqNo:(unsigned char)seqNo;
+
 - (int)waitForLAFrame:(unsigned char)seqNo;
 - (int)waitForLDFrame;
 

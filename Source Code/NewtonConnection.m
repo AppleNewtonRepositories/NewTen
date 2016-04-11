@@ -314,6 +314,35 @@
 	return 0;
 }
 
+- (BOOL)sendData:(unsigned char *)data length:(int *)length {
+  if ( write(newtFD, &data[0], length) < 0 ) {
+    return NO;
+  }
+  return YES;
+}
+
+- (int)readData:(unsigned char *)buf length:(int)length {
+  fd_set fds;
+  FD_ZERO(&fds);
+  FD_SET(newtFD, &fds);
+  struct timeval timeout = { 1, 0 };
+  
+  if ( select(newtFD + 1, &fds, NULL, NULL, &timeout) < 1 ) {
+    return -1;
+  }
+  
+  int bytesRead = 0;
+  int readLength = 0;
+  while (bytesRead < length) {
+    readLength = read(newtFD, buf + bytesRead, length - bytesRead);
+    if ( readLength < 0 ) {
+      return -1; //ErrHandler(errMesg);
+    }
+    bytesRead += readLength;
+  }
+
+  return 0;
+}
 
 - (BOOL)sendFrame:(unsigned char*)info header:(unsigned char*)head length:(int)infoLen
 {
