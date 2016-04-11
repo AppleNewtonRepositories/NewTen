@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F12CD0FB1CBC1659002129E1 /* DebuggerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F12CD0FA1CBC1659002129E1 /* DebuggerController.m */; };
 		F18FA4801CB8B7920013F7A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FA47F1CB8B7920013F7A7 /* AppDelegate.m */; };
-		F18FA4851CB8B7D90013F7A7 /* HammerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FA4841CB8B7D90013F7A7 /* HammerController.m */; };
 		F18FA4891CB8B7EE0013F7A7 /* PackageController.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FA4881CB8B7EE0013F7A7 /* PackageController.m */; };
 		F1B6C557091C7DCD0044B483 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		F1B6C558091C7DCD0044B483 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -27,10 +27,10 @@
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = SOURCE_ROOT; };
 		F113903B050B0E0D00000103 /* Instructions.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Instructions.rtf; path = ../Instructions.rtf; sourceTree = SOURCE_ROOT; };
 		F1172C10091C7ADF0016F2FD /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		F12CD0F91CBC1659002129E1 /* DebuggerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebuggerController.h; sourceTree = "<group>"; };
+		F12CD0FA1CBC1659002129E1 /* DebuggerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebuggerController.m; sourceTree = "<group>"; };
 		F18FA47E1CB8B7920013F7A7 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F18FA47F1CB8B7920013F7A7 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		F18FA4831CB8B7D90013F7A7 /* HammerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HammerController.h; sourceTree = "<group>"; };
-		F18FA4841CB8B7D90013F7A7 /* HammerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HammerController.m; sourceTree = "<group>"; };
 		F18FA4871CB8B7EE0013F7A7 /* PackageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackageController.h; sourceTree = "<group>"; };
 		F18FA4881CB8B7EE0013F7A7 /* PackageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PackageController.m; sourceTree = "<group>"; };
 		F1B6C566091C7DCD0044B483 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -60,8 +60,8 @@
 				F18FA47F1CB8B7920013F7A7 /* AppDelegate.m */,
 				F18FA4871CB8B7EE0013F7A7 /* PackageController.h */,
 				F18FA4881CB8B7EE0013F7A7 /* PackageController.m */,
-				F18FA4831CB8B7D90013F7A7 /* HammerController.h */,
-				F18FA4841CB8B7D90013F7A7 /* HammerController.m */,
+				F12CD0F91CBC1659002129E1 /* DebuggerController.h */,
+				F12CD0FA1CBC1659002129E1 /* DebuggerController.m */,
 				F1B6C5E7091C86C20044B483 /* NewtonConnection.h */,
 				F1B6C5E8091C86C20044B483 /* NewtonConnection.m */,
 			);
@@ -185,8 +185,8 @@
 				F1B6C55D091C7DCD0044B483 /* main.m in Sources */,
 				F1B6C5E9091C86C20044B483 /* NewtonConnection.m in Sources */,
 				F18FA4801CB8B7920013F7A7 /* AppDelegate.m in Sources */,
-				F18FA4851CB8B7D90013F7A7 /* HammerController.m in Sources */,
 				F18FA4891CB8B7EE0013F7A7 /* PackageController.m in Sources */,
+				F12CD0FB1CBC1659002129E1 /* DebuggerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

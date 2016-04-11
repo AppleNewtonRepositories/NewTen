@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 
 #import "PackageController.h"
-#import "HammerController.h"
+#import "DebuggerController.h"
 
 @interface NSObject(ControllerMethods)
 - (void) main;
@@ -243,7 +243,7 @@
 
 #pragma mark - Actions
 - (IBAction)downloadROM:(id)sender {
-  HammerController *hammerController = [[HammerController alloc] init];
+  DebuggerController *hammerController = [[DebuggerController alloc] init];
   [hammerController setDevicePath:[self devicePath]];
   [self startThreadForController:hammerController];
   [hammerController release];

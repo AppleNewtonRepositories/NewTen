@@ -1,12 +1,12 @@
 //
-//  HammerController.m
+//  DebuggerController.m
 //  NewTen
 //
 //  Created by Steve White on 4/8/16.
 //
 //
 
-#import "HammerController.h"
+#import "DebuggerController.h"
 
 #import "AppDelegate.h"
 #import "NewtonConnection.h"
@@ -41,7 +41,7 @@ enum {
   ResponseReset = 0x7f,
 };
 
-@implementation HammerController
+@implementation DebuggerController
 
 - (void) dealloc {
   if (_devicePath) {
@@ -84,7 +84,7 @@ enum {
 	while ( (status = [_connection receiveFrame:_recvBuf length:&_recvBufLen]) < 0 )
 	{
 		if ( _giveUp ) {
-			[[NSException exceptionWithName:@"HammerControllerCancelled" reason:@"_giveUp == true" userInfo:nil] raise];
+			[[NSException exceptionWithName:@"DebuggerControllerCancelled" reason:@"_giveUp == true" userInfo:nil] raise];
 			return NO;
 		}
 	}
@@ -122,7 +122,7 @@ enum {
 
   [_connection sendFrame:&_sendBuf[0] header:NULL length:length + 1];
   if (_giveUp == true) {
-    [[NSException exceptionWithName:@"HammerControllerCancelled" reason:@"_giveUp == true" userInfo:nil] raise];
+    [[NSException exceptionWithName:@"DebuggerControllerCancelled" reason:@"_giveUp == true" userInfo:nil] raise];
   }
 }
 

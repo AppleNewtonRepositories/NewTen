@@ -1,5 +1,5 @@
 //
-//  HammerController.h
+//  DebuggerController.h
 //  NewTen
 //
 //  Created by Steve White on 4/8/16.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "NewtonConnection.h"
 
-@interface HammerController : NSObject {
+@interface DebuggerController : NSObject {
   NSString *_devicePath;
   NewtonConnection *_connection;
   volatile BOOL _giveUp;
