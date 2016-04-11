@@ -181,7 +181,7 @@ enum {
   [self sendRequestWithCommand:CommandStop body:&stopCmd[0] length:sizeof(stopCmd)];
 }
 
-- (void) sendReadMemoryCommandWithAddress:(uint32_t)address length:(uint32_t)length {
+- (void) sendReadMemoryCommandWithAddress:(uint32_t)address length:(uint32_t)length readResult:(BOOL)readResult {
   uint8_t readMemCmd[] = {
     (address      ) & 0xff,
     (address >>  8) & 0xff,
@@ -193,8 +193,24 @@ enum {
     (length >> 24) & 0xff,
   };
   
-  [self sendFrameWithCommand:CommandReadPhysicalMemory body:&readMemCmd[0] length:sizeof(readMemCmd)];
-  [self readDataForResponse:ResponseResult];
+  int command;
+  if (_romVersion < 0x00010002) {
+    command = CommandReadMemory;
+  }
+  else {
+    command = CommandReadPhysicalMemory;
+  }
+  
+  [self sendRequestWithCommand:command body:&readMemCmd[0] length:sizeof(readMemCmd)];
+  
+  if (readResult == YES) {
+    // Response length is: 1 (ResponseResult) + length + 1 (0x00)
+    [self readDataForResponse:ResponseResult length:2 + length];
+  }
+}
+
+- (void) sendReadMemoryCommandWithAddress:(uint32_t)address length:(uint32_t)length {
+  [self sendReadMemoryCommandWithAddress:address length:length readResult:YES];
 }
 
 #pragma mark - Hardware Info helpers
