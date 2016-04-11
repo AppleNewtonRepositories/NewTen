@@ -194,14 +194,21 @@ enum {
                          fromManufacturer:(uint32_t)manufacturer
 {
   switch (hardwareType) {
-    case 0x10001000:
-      return @"MessagePad (Junior)";
     case 0x10002000:
       return @"Bic";
     case 0x10003000:
       return @"MessagePad 2000/2100 (Senior)";
     case 0x10004000:
       return @"eMate 300";
+    case 0x10001000:
+    {
+      if (manufacturer == 0x01000200) {
+        return @"ExpertPad";
+      }
+      else {
+        return @"MessagePad (Junior)";
+      }
+    }
     case 0x00726377:
     {
       if (manufacturer == 0x01000200) {
