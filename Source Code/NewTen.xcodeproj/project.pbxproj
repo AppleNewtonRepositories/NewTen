@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		F12CD0FB1CBC1659002129E1 /* DebuggerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F12CD0FA1CBC1659002129E1 /* DebuggerController.m */; };
+		F12CD1021CBC32B2002129E1 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F12CD0FC1CBC32B2002129E1 /* Credits.rtf */; };
+		F12CD1031CBC32B2002129E1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F12CD0FE1CBC32B2002129E1 /* InfoPlist.strings */; };
+		F12CD1041CBC32B2002129E1 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = F12CD1001CBC32B2002129E1 /* MainMenu.nib */; };
 		F18FA4801CB8B7920013F7A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FA47F1CB8B7920013F7A7 /* AppDelegate.m */; };
 		F18FA4891CB8B7EE0013F7A7 /* PackageController.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FA4881CB8B7EE0013F7A7 /* PackageController.m */; };
-		F1B6C557091C7DCD0044B483 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
-		F1B6C558091C7DCD0044B483 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
-		F1B6C559091C7DCD0044B483 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F579C4AC0227883001000104 /* Credits.rtf */; };
 		F1B6C55A091C7DCD0044B483 /* NewTen.icns in Resources */ = {isa = PBXBuildFile; fileRef = F53BDED502278DFC01000104 /* NewTen.icns */; };
 		F1B6C55B091C7DCD0044B483 /* Instructions.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F113903B050B0E0D00000103 /* Instructions.rtf */; };
 		F1B6C55D091C7DCD0044B483 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -21,14 +21,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = SOURCE_ROOT; };
-		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = SOURCE_ROOT; };
 		F113903B050B0E0D00000103 /* Instructions.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Instructions.rtf; path = ../Instructions.rtf; sourceTree = SOURCE_ROOT; };
 		F1172C10091C7ADF0016F2FD /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		F12CD0F91CBC1659002129E1 /* DebuggerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebuggerController.h; sourceTree = "<group>"; };
 		F12CD0FA1CBC1659002129E1 /* DebuggerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebuggerController.m; sourceTree = "<group>"; };
+		F12CD0FC1CBC32B2002129E1 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		F12CD0FF1CBC32B2002129E1 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
+		F12CD1011CBC32B2002129E1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = MainMenu.nib; sourceTree = "<group>"; };
 		F18FA47E1CB8B7920013F7A7 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F18FA47F1CB8B7920013F7A7 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F18FA4871CB8B7EE0013F7A7 /* PackageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackageController.h; sourceTree = "<group>"; };
@@ -38,7 +39,6 @@
 		F1B6C5E7091C86C20044B483 /* NewtonConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewtonConnection.h; sourceTree = "<group>"; };
 		F1B6C5E8091C86C20044B483 /* NewtonConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewtonConnection.m; sourceTree = "<group>"; };
 		F53BDED502278DFC01000104 /* NewTen.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = NewTen.icns; sourceTree = SOURCE_ROOT; };
-		F579C4AC0227883001000104 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +84,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				F1B6C566091C7DCD0044B483 /* Info.plist */,
 			);
 			name = NewTen;
 			sourceTree = "<group>";
@@ -101,13 +100,14 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
-				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				F12CD0FC1CBC32B2002129E1 /* Credits.rtf */,
+				F12CD0FE1CBC32B2002129E1 /* InfoPlist.strings */,
+				F12CD1001CBC32B2002129E1 /* MainMenu.nib */,
 				F113903B050B0E0D00000103 /* Instructions.rtf */,
-				F579C4AC0227883001000104 /* Credits.rtf */,
+				F1B6C566091C7DCD0044B483 /* Info.plist */,
 				F53BDED502278DFC01000104 /* NewTen.icns */,
 			);
-			name = Resources;
+			path = Resources;
 			sourceTree = SOURCE_ROOT;
 		};
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
@@ -152,6 +152,7 @@
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
+				English,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* NewTen */;
 			projectDirPath = "";
@@ -167,9 +168,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1B6C557091C7DCD0044B483 /* MainMenu.nib in Resources */,
-				F1B6C558091C7DCD0044B483 /* InfoPlist.strings in Resources */,
-				F1B6C559091C7DCD0044B483 /* Credits.rtf in Resources */,
+				F12CD1031CBC32B2002129E1 /* InfoPlist.strings in Resources */,
+				F12CD1021CBC32B2002129E1 /* Credits.rtf in Resources */,
+				F12CD1041CBC32B2002129E1 /* MainMenu.nib in Resources */,
 				F1B6C55A091C7DCD0044B483 /* NewTen.icns in Resources */,
 				F1B6C55B091C7DCD0044B483 /* Instructions.rtf in Resources */,
 			);
@@ -193,21 +194,23 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+		F12CD0FE1CBC32B2002129E1 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				089C165DFE840E0CC02AAC07 /* English */,
+				F12CD0FF1CBC32B2002129E1 /* English */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = SOURCE_ROOT;
+			path = English.lproj;
+			sourceTree = "<group>";
 		};
-		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+		F12CD1001CBC32B2002129E1 /* MainMenu.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				29B97319FDCFA39411CA2CEA /* English */,
+				F12CD1011CBC32B2002129E1 /* English */,
 			);
 			name = MainMenu.nib;
-			sourceTree = SOURCE_ROOT;
+			path = English.lproj;
+			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
@@ -225,7 +228,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_USE_GCC3_PFE_SUPPORT = YES;
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -251,7 +254,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_USE_GCC3_PFE_SUPPORT = YES;
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
