@@ -243,10 +243,22 @@
 
 #pragma mark - Actions
 - (IBAction)downloadROM:(id)sender {
-  DebuggerController *hammerController = [[DebuggerController alloc] init];
-  [hammerController setDevicePath:[self devicePath]];
-  [self startThreadForController:hammerController];
-  [hammerController release];
+  NSInteger result = NSRunAlertPanel(NSLocalizedString(@"Newton OS Version", @"Newton OS Version"),
+                                     NSLocalizedString(@"Please pick the version of the connected Newton device", @"Please pick the version of the connected Newton device"),
+                                     @"v1.x",
+                                     NSLocalizedString(@"Cancel", @"Cancel"),
+                                     @"v2.x");
+  if (result == 0) {
+    return;
+  }
+  
+  DebuggerController *debugController = [[DebuggerController alloc] init];
+  [debugController setDevicePath:[self devicePath]];
+  if (result == -1) {
+    debugController.useBisyncFrames = YES;
+  }
+  [self startThreadForController:debugController];
+  [debugController release];
 }
 
 - (IBAction)selectPackage:(id)sender
