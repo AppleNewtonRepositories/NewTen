@@ -258,35 +258,12 @@
   }
   
   NSWindow *downloadSheet = downloadController.window;
-  [downloadSheet orderOut:nil];
   
   [NSApp beginSheet:downloadSheet
      modalForWindow:mainWindow
       modalDelegate:self
      didEndSelector:@selector(downloadSheetDidEnd:returnCode:contextInfo:)
         contextInfo:nil];
-
-  
-#if 1
-//  [downloadController showWindow:self];
-#else
-  NSInteger result = NSRunAlertPanel(NSLocalizedString(@"Newton OS Version", @"Newton OS Version"),
-                                     NSLocalizedString(@"Please pick the version of the connected Newton device", @"Please pick the version of the connected Newton device"),
-                                     @"v1.x",
-                                     NSLocalizedString(@"Cancel", @"Cancel"),
-                                     @"v2.x");
-  if (result == 0) {
-    return;
-  }
-  
-  DebuggerController *debugController = [[DebuggerController alloc] init];
-  [debugController setDevicePath:[self devicePath]];
-  if (result == -1) {
-    debugController.useBisyncFrames = YES;
-  }
-  [self startThreadForController:debugController];
-  [debugController release];
-#endif
 }
 
 - (IBAction)selectPackage:(id)sender
