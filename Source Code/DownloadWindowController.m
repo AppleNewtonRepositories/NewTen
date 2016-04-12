@@ -31,11 +31,21 @@
   return [self initWithWindowNibName:@"ROMDownload"];
 }
 
+- (void) dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [super dealloc];
+}
+
 - (void)windowDidLoad {
   [super windowDidLoad];
   
   [self switchContentViewForTabViewItem:[tabView selectedTabViewItem]];
   [self _startAutoplayTimer];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(urlClickedNotification:)
+                                               name:TableOfContentsViewURLClickedNotification
+                                             object:nil];
 }
 
 - (void) close {
@@ -210,6 +220,58 @@
 }
 
 #pragma mark - Script loading
+- (id) processedTextFromString:(NSString *)string {
+  NSRange linkTextStartRange = [string rangeOfString:@"["];
+  if (linkTextStartRange.location == NSNotFound) {
+    return string;
+  }
+  
+  NSRange remainingRange;
+  remainingRange.location = NSMaxRange(linkTextStartRange);
+  remainingRange.length = [string length] - remainingRange.location;
+  NSRange linkTextEndRange = [string rangeOfString:@"]" options:0 range:remainingRange];
+  if (linkTextEndRange.location == NSNotFound) {
+    return string;
+  }
+
+  NSRange linkTextRange;
+  linkTextRange.location = NSMaxRange(linkTextStartRange);
+  linkTextRange.length = linkTextEndRange.location - linkTextRange.location;
+  
+  if ([string characterAtIndex:NSMaxRange(linkTextEndRange)] != '(') {
+    return string;
+  }
+  
+  remainingRange.location = NSMaxRange(linkTextEndRange) + 2;
+  remainingRange.length = [string length] - remainingRange.location;
+
+  NSRange linkEndRange = [string rangeOfString:@")" options:0 range:remainingRange];
+  if (linkEndRange.location == NSNotFound) {
+    return string;
+  }
+
+  NSRange linkRange;
+  linkRange.location = NSMaxRange(linkTextEndRange) + 1;
+  linkRange.length = linkEndRange.location - linkRange.location;
+  
+  NSString *prefix = [string substringToIndex:linkTextStartRange.location];
+  NSString *suffix = [string substringFromIndex:NSMaxRange(linkEndRange)];
+  NSString *linkText = [string substringWithRange:linkTextRange];
+  NSString *link = [string substringWithRange:linkRange];
+  
+  NSDictionary *linkAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  link, NSLinkAttributeName,
+                                  [NSNumber numberWithInt:NSUnderlineStyleSingle], NSUnderlineStyleAttributeName,
+                                  [NSColor blueColor], NSForegroundColorAttributeName,
+                                  nil];
+  
+  NSMutableAttributedString *result = [[[NSMutableAttributedString alloc] init] autorelease];
+  [result appendAttributedString:[[[NSAttributedString alloc] initWithString:prefix attributes:nil] autorelease]];
+  [result appendAttributedString:[[[NSAttributedString alloc] initWithString:linkText attributes:linkAttributes] autorelease]];
+  [result appendAttributedString:[[[NSAttributedString alloc] initWithString:suffix attributes:nil] autorelease]];
+  return result;
+}
+
 - (void) loadScriptNamed:(NSString *)scriptName {
   [screencast removeAllImages];
   
@@ -241,7 +303,7 @@
       NSLog(@"%s can't process step without a title: %@", __PRETTY_FUNCTION__, aStep);
     }
     else {
-      [stepTitles addObject:stepTitle];
+      [stepTitles addObject:[self processedTextFromString:stepTitle]];
     }
   }
   
@@ -320,9 +382,8 @@
   [hardwareTypeLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
   [romVersionLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
   [romSizeLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
-
   [NSApp runModalForWindow:downloadPanel];
-  [downloadPanel orderOut:nil];
+  [downloadPanel orderOut:self];
 }
 
 - (void)dismissDownloadPanel {
@@ -459,6 +520,28 @@
   [self performSelectorOnMainThread:@selector(dismissDownloadPanel)
                          withObject:nil
                       waitUntilDone:NO];
+}
+
+#pragma mark - Notifications
+- (void) urlClickedNotification:(NSNotification *)aNotification {
+  NSURL *url = [[aNotification userInfo] objectForKey:@"url"];
+  if ([[url scheme] isEqualToString:@"newten"] == NO) {
+    return;
+  }
+  if ([[url host] isEqualToString:@"installpackage"] == NO) {
+    return;
+  }
+  
+  NSString *packageName = [[url path] substringFromIndex:1];
+  NSString *path = [[NSBundle mainBundle] pathForResource:packageName ofType:nil];
+  if (path == nil) {
+    return;
+  }
+
+  [self _stopAutoplayTimer];
+
+  AppDelegate *appDelgate = (id)[NSApp delegate];
+  [appDelgate installPackages:[NSArray arrayWithObject:path] runAsModal:YES];
 }
 
 @end
