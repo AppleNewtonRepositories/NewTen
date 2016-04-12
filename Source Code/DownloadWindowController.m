@@ -338,11 +338,14 @@
   else if (bytes < 1024 * 1024) {
     return [NSString stringWithFormat:@"%iKB", (int)bytes / 1024];
   }
-  else if (bytes < 1024 * 1024 * 1024) {
-    return [NSString stringWithFormat:@"%iMB", (int)bytes / 1024 / 1024];
-  }
   else {
-    return [NSString stringWithFormat:@"%i GB", (int)bytes / 1024 / 1024 / 1024];
+    double mb = (bytes / 1024.0 / 1024.0);
+    if ((int)mb == mb) {
+      return [NSString stringWithFormat:@"%iMB", (int)mb];
+    }
+    else {
+      return [NSString stringWithFormat:@"%.2fMB", mb];
+    }
   }
 }
 
@@ -424,7 +427,7 @@
 }
 
 - (void) debuggerController:(DebuggerController *)controller retrievedROMSize:(uint32_t)romSize{
-  NSString *statusMessage = [NSString stringWithFormat:@"%i KB", romSize / 1024];
+  NSString *statusMessage = [self humanStringForBytes:romSize];
   [self.romSizeLabel performSelectorOnMainThread:@selector(setStringValue:)
                                       withObject:statusMessage
                                    waitUntilDone:NO];
