@@ -10,6 +10,7 @@
 
 #import "PackageController.h"
 #import "DebuggerController.h"
+#import "DownloadWindowController.h"
 
 @interface NSObject(ControllerMethods)
 - (void) main;
@@ -241,8 +242,34 @@
   return YES;
 }
 
+#pragma mark - Download helpers
+- (void)downloadSheetDidEnd:(NSOpenPanel*)inSheet
+                 returnCode:(int)returnCode
+                contextInfo:(void*)contextInfo
+{
+  [[downloadController window] orderOut:nil];
+  downloadController = nil;
+}
+
 #pragma mark - Actions
 - (IBAction)downloadROM:(id)sender {
+  if (downloadController == nil) {
+    downloadController = [[DownloadWindowController alloc] init];
+  }
+  
+  NSWindow *downloadSheet = downloadController.window;
+  [downloadSheet orderOut:nil];
+  
+  [NSApp beginSheet:downloadSheet
+     modalForWindow:mainWindow
+      modalDelegate:self
+     didEndSelector:@selector(downloadSheetDidEnd:returnCode:contextInfo:)
+        contextInfo:nil];
+
+  
+#if 1
+//  [downloadController showWindow:self];
+#else
   NSInteger result = NSRunAlertPanel(NSLocalizedString(@"Newton OS Version", @"Newton OS Version"),
                                      NSLocalizedString(@"Please pick the version of the connected Newton device", @"Please pick the version of the connected Newton device"),
                                      @"v1.x",
@@ -259,6 +286,7 @@
   }
   [self startThreadForController:debugController];
   [debugController release];
+#endif
 }
 
 - (IBAction)selectPackage:(id)sender
@@ -403,38 +431,6 @@
   }
 
   [status setStringValue:statusText];
-}
-
-#pragma mark -
-- (void) runSavePanelWithArgs:(NSDictionary *)args {
-  if ([NSThread isMainThread] == NO) {
-    return [self performSelectorOnMainThread:_cmd
-                                  withObject:args
-                               waitUntilDone:YES];
-  }
-  
-  NSSavePanel *savePanel = [NSSavePanel savePanel];
-  [savePanel setCanCreateDirectories:YES];
-  [savePanel setTitle:NSLocalizedString(@"Save ROM As...", @"Save ROM As...")];
-  [savePanel setNameFieldStringValue:[args objectForKey:@"filename"]];
-  
-  NSInteger result = [savePanel runModal];
-  if (result != NSFileHandlingPanelOKButton) {
-    return;
-  }
-  
-  NSURL *selectedURL = [savePanel URL];
-  if (selectedURL == nil) {
-    return;
-  }
-
-  NSData *data = [args objectForKey:@"data"];
-  [data writeToURL:selectedURL atomically:YES];
-}
-
-- (void) saveData:(NSData *)data withFilename:(NSString *)filename {
-  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:data, @"data", filename, @"filename", nil];
-  [self runSavePanelWithArgs:args];
 }
 
 @end

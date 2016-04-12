@@ -8,6 +8,8 @@
 
 #import <AppKit/AppKit.h>
 
+@class DownloadWindowController;
+
 @interface AppDelegate : NSObject {
   IBOutlet NSPopUpButton* driverButton;
   IBOutlet NSButton* installPackageButton;
@@ -16,6 +18,8 @@
   IBOutlet NSProgressIndicator* progress;
   IBOutlet NSTextField* status;
   IBOutlet NSPanel* sheet;
+  
+  DownloadWindowController *downloadController;
   
   id _activeController;
 }
@@ -26,12 +30,16 @@
 - (IBAction)selectPackage:(id)sender;
 - (IBAction)downloadROM:(id)sender;
 
+- (NSString *)devicePath;
+
+- (void) setActiveController:(id)controller;
+- (id) activeController;
+- (void) startThreadForController:(id)controller;
+
 - (void)showStatusSheet;
 - (void)hideStatusSheet;
 - (void)updateProgress:(NSNumber*)current;
 - (void)updateProgressMax:(NSNumber*)maximum;
 - (void)updateStatus:(NSString*)statusText;
-
-- (void) saveData:(NSData *)data withFilename:(NSString *)filename;
 
 @end
