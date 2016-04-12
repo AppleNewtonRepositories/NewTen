@@ -394,6 +394,9 @@ enum {
   
   while (addr < length) {
     uint8_t chunkLength = readSize;
+    if (_giveUp == true) {
+      return nil;
+    }
     
     if (_romVersion >= 0x00020000) {
       [self sendReadMemoryCommandWithAddress:addr length:readSize];
