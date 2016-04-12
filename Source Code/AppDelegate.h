@@ -18,6 +18,7 @@
   IBOutlet NSProgressIndicator* progress;
   IBOutlet NSTextField* status;
   IBOutlet NSPanel* sheet;
+  BOOL runSheetAsModal;
   
   DownloadWindowController *downloadController;
   
@@ -31,6 +32,7 @@
 - (IBAction)downloadROM:(id)sender;
 
 - (NSString *)devicePath;
+- (void) installPackages:(NSArray *)packages runAsModal:(BOOL)runAsModal;
 
 - (void) setActiveController:(id)controller;
 - (id) activeController;

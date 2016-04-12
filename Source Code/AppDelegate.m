@@ -182,13 +182,19 @@
 }
 
 #pragma mark - Packages
+- (void) installPackages:(NSArray *)packages runAsModal:(BOOL)runAsModal {
+  runSheetAsModal = runAsModal;
+  
+  PackageController *pkgController = [[PackageController alloc] init];
+  [pkgController setPackages: packages];
+  [pkgController setDevicePath: [self devicePath]];
+  [self startThreadForController:pkgController];
+  [pkgController release];
+}
+
 - (void) installPackages:(NSArray *)packages
 {
-	PackageController *pkgController = [[PackageController alloc] init];
-	[pkgController setPackages: packages];
-	[pkgController setDevicePath: [self devicePath]];
-	[self startThreadForController:pkgController];
-	[pkgController release];
+  [self installPackages:packages runAsModal:NO];
 }
 
 - (void)packagePanelDidEnd:(NSOpenPanel*)inSheet
@@ -347,8 +353,13 @@
                                waitUntilDone:NO];
   }
 
-  [NSApp endSheet:sheet];
-  [sheet orderOut:self];
+  if (runSheetAsModal == YES) {
+    [NSApp stopModal];
+  }
+  else {
+    [NSApp endSheet:sheet];
+    [sheet orderOut:self];
+  }
 }
 
 - (void)showStatusSheet
@@ -362,7 +373,13 @@
   [self updateProgress:[NSNumber numberWithInt:0]];
   [self updateProgressMax:[NSNumber numberWithInt:100]];
 
-  [NSApp beginSheet:sheet modalForWindow:mainWindow modalDelegate:nil didEndSelector:nil contextInfo:nil];
+  if (runSheetAsModal == YES) {
+    [NSApp runModalForWindow:sheet];
+    [sheet orderOut:nil];
+  }
+  else {
+    [NSApp beginSheet:sheet modalForWindow:mainWindow modalDelegate:nil didEndSelector:nil contextInfo:nil];
+  }
 }
 
 - (void)updateProgress:(NSNumber*)current
