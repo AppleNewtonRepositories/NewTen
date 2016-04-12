@@ -8,8 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface HighlightView : NSView
+@interface HighlightView : NSView {
+  NSRect _highlightRect;
+}
+
 @property (assign, nonatomic) NSRect highlightRect;
+
 @end
 
 @interface ScreencastView : NSView {
@@ -17,7 +21,7 @@
   HighlightView *_highlightView;
 }
 
-- (CGSize) contentSize;
+- (NSSize) contentSize;
 - (void) removeAllImages;
 
 - (NSArray *) allIdentifiers;

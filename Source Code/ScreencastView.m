@@ -36,17 +36,17 @@
   [_highlightView setHighlightRect:NSZeroRect];
 }
 
-- (CGSize) contentSize {
+- (NSSize) contentSize {
   CGFloat minX=CGFLOAT_MAX,minY=CGFLOAT_MAX,maxX=0,maxY=0;
   for (NSString *anImageIdentifier in _imageViewsByIdentifier) {
-    NSView *imageView = _imageViewsByIdentifier[anImageIdentifier];
+	  NSView *imageView = [_imageViewsByIdentifier objectForKey:anImageIdentifier];
     NSRect frame = imageView.frame;
     minX = MIN(minX, NSMinX(frame));
     minY = MIN(minY, NSMinY(frame));
     maxX = MAX(maxX, NSMaxX(frame));
     maxY = MAX(maxY, NSMaxY(frame));
   }
-  return CGSizeMake(maxX, maxY);
+  return NSMakeSize(maxX, maxY);
 }
 
 - (BOOL) isFlipped {
@@ -63,7 +63,7 @@
     NSLog(@"%s couldn't find image view for identifier:%@", __PRETTY_FUNCTION__, identifier);
   }
   else {
-    imageView.hidden = hidden;
+	  [imageView setHidden:YES];
   }
 }
 
@@ -100,6 +100,8 @@
 
 
 @implementation HighlightView
+
+@synthesize highlightRect = _highlightRect;
 
 - (BOOL) isFlipped {
   return YES;

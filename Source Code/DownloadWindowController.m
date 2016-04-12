@@ -14,6 +14,11 @@
 
 @implementation DownloadWindowController
 
+@synthesize steps = _steps;
+@synthesize stepIndex = _stepIndex;
+@synthesize autoplayTimer = _autoplayTimer;
+@dynamic autoplaying;
+
 + (NSSet *) keyPathsForValuesAffectingAutoplaying {
   return [NSSet setWithObject:@"autoplayTimer"];
 }
@@ -29,7 +34,7 @@
 - (void)windowDidLoad {
   [super windowDidLoad];
   
-  [self switchContentViewForTabViewItem:[self.tabView selectedTabViewItem]];
+  [self switchContentViewForTabViewItem:[tabView selectedTabViewItem]];
   [self _startAutoplayTimer];
 }
 
@@ -40,18 +45,12 @@
 
 #pragma mark -
 - (BOOL) isOldNewtonSelected {
-  return ([[[self.tabView selectedTabViewItem] identifier] intValue] == 1);
+  return ([[[tabView selectedTabViewItem] identifier] intValue] == 1);
 }
 
 #pragma mark - Resizing
 - (void) layoutContentView {
 #define ContentFrameInset 20
-  
-  ScreencastView *screencast = self.screencast;
-  TableOfContentsView *toc = self.toc;
-  NSView *screencastButtons = self.screencastButtons;
-  NSButton *downloadButton = self.downloadButton;
-  NSButton *closeButton = self.closeButton;
   
   // Figure out the width of the screencast, so we
   // can center the buttons under it
@@ -90,7 +89,7 @@
   contentFrame.size.width = NSMaxX(tocFrame) + ContentFrameInset;
   contentFrame.size.height = MAX(NSMaxX(screencastButtonsFrame), NSMaxY(tocFrame)) + ContentFrameInset;
   
-  self.contentView.frame = contentFrame;
+  contentView.frame = contentFrame;
   screencast.frame = screencastFrame;
   screencastButtons.frame = screencastButtonsFrame;
   downloadButton.frame = downloadFrame;
@@ -99,7 +98,7 @@
 }
 
 - (void) resizeWindow {
-  NSSize contentSize = self.contentView.bounds.size;
+  NSSize contentSize = contentView.bounds.size;
   // Add padding for the NSTabView..
   contentSize.width += 40;
   contentSize.height += 70;
@@ -121,8 +120,8 @@
   
   [self loadScriptNamed:scriptName];
   
-  [self.contentView removeFromSuperview];
-  [tabViewItem.view addSubview:self.contentView];
+  [contentView removeFromSuperview];
+  [tabViewItem.view addSubview:contentView];
   
   [self layoutContentView];
   [self resizeWindow];
@@ -133,7 +132,7 @@
 }
 
 #pragma mark - NSTabView delegate
-- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem {
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
   [self switchContentViewForTabViewItem:tabViewItem];
 }
 
@@ -187,32 +186,32 @@
 
 #pragma mark - Step rendering
 - (void) renderStepAtIndex:(NSInteger)index {
-  NSArray *imageIdentifiers = [self.screencast allIdentifiers];
+  NSArray *imageIdentifiers = [screencast allIdentifiers];
   for (NSString *anImageIdentifier in imageIdentifiers) {
-    [self.screencast setHidden:YES forImageWithIdentifier:anImageIdentifier];
+    [screencast setHidden:YES forImageWithIdentifier:anImageIdentifier];
   }
   
-  NSDictionary *step = self.steps[index];
-  NSArray *visibleImages = step[@"visibleImages"];
+	NSDictionary *step = [self.steps objectAtIndex:index];
+	NSArray *visibleImages = [step objectForKey:@"visibleImages"];
   for (NSString *anImageIdentifier in visibleImages) {
-    [self.screencast setHidden:NO forImageWithIdentifier:anImageIdentifier];
+    [screencast setHidden:NO forImageWithIdentifier:anImageIdentifier];
   }
   
   NSRect highlightRect = NSZeroRect;
-  NSString *highlightRectStr = step[@"highlightRect"];
+	NSString *highlightRectStr = [step objectForKey:@"highlightRect"];
   if (highlightRectStr != nil) {
     highlightRect = NSRectFromString(highlightRectStr);
   }
   
-  [self.screencast highlightRect:highlightRect];
+  [screencast highlightRect:highlightRect];
   
-  self.toc.selectedTitleIndex = index;
+  toc.selectedTitleIndex = index;
   self.stepIndex = index;
 }
 
 #pragma mark - Script loading
 - (void) loadScriptNamed:(NSString *)scriptName {
-  [self.screencast removeAllImages];
+  [screencast removeAllImages];
   
   NSDictionary *script = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:scriptName ofType:@"plist"]];
   if (script == nil) {
@@ -220,7 +219,6 @@
     return;
   }
   
-  ScreencastView *screencastView = self.screencast;
   NSArray *assets = [script objectForKey:@"assets"];
   for (NSDictionary *anAsset in assets) {
     NSString *identifier = [anAsset objectForKey:@"identifier"];
@@ -231,7 +229,7 @@
       NSLog(@"%s can't create asset with nil identifier/imageName: %@", __PRETTY_FUNCTION__, anAsset);
     }
     else {
-      [screencastView addImageNamed:imageName atPoint:point withIdentifier:identifier];
+      [screencast addImageNamed:imageName atPoint:point withIdentifier:identifier];
     }
   }
   
@@ -247,7 +245,7 @@
     }
   }
   
-  self.toc.titles = stepTitles;
+  toc.titles = stepTitles;
   self.steps = steps;
 }
 
@@ -317,14 +315,14 @@
 
 #pragma mark - Download panel helpers
 - (void)presentDownloadPanel {
-  [self.statusLabel setStringValue:NSLocalizedString(@"Idle", @"Idle")];
-  [self.manufacturerLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
-  [self.hardwareTypeLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
-  [self.romVersionLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
-  [self.romSizeLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
+  [statusLabel setStringValue:NSLocalizedString(@"Idle", @"Idle")];
+  [manufacturerLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
+  [hardwareTypeLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
+  [romVersionLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
+  [romSizeLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
 
-  [NSApp runModalForWindow:self.downloadPanel];
-  [self.downloadPanel orderOut:nil];
+  [NSApp runModalForWindow:downloadPanel];
+  [downloadPanel orderOut:nil];
 }
 
 - (void)dismissDownloadPanel {
@@ -351,9 +349,9 @@
 
 - (void)updateProgress:(NSNumber*)current {
   double currentVal = [current doubleValue];
-  double maxVal = [self.progressIndicator maxValue];
+  double maxVal = [progressIndicator maxValue];
 
-  [self.progressIndicator setDoubleValue:currentVal];
+  [progressIndicator setDoubleValue:currentVal];
 
   NSString *ofStr = [self humanStringForBytes:currentVal];
   NSString *toStr = [self humanStringForBytes:maxVal];
@@ -361,11 +359,11 @@
   NSString *formatString = NSLocalizedString(@"Downloaded %1$@ of %2$@", @"Downloaded %1$@ of %2$@");
   NSString *progressDesc = [NSString stringWithFormat:formatString, ofStr, toStr];
 
-  [self.statusLabel setStringValue:progressDesc];
+  [statusLabel setStringValue:progressDesc];
 }
 
 - (void)updateProgressMax:(NSNumber*)maximum {
-  [self.progressIndicator setMaxValue:[maximum doubleValue]];
+  [progressIndicator setMaxValue:[maximum doubleValue]];
 }
 
 #pragma mark - File Saving
@@ -403,32 +401,32 @@
 
 #pragma mark - DebuggerController delegates
 - (void) debuggerController:(DebuggerController *)controller updatedStatusMessage:(NSString *)statusMessage {
-  [self.statusLabel performSelectorOnMainThread:@selector(setStringValue:)
+  [statusLabel performSelectorOnMainThread:@selector(setStringValue:)
                                      withObject:statusMessage
                                   waitUntilDone:NO];
 }
 
 - (void) debuggerController:(DebuggerController *)controller retrievedManufacturer:(NSString *)manufacturer{
-  [self.manufacturerLabel performSelectorOnMainThread:@selector(setStringValue:)
+  [manufacturerLabel performSelectorOnMainThread:@selector(setStringValue:)
                                            withObject:manufacturer
                                         waitUntilDone:NO];
 }
 
 - (void) debuggerController:(DebuggerController *)controller retrievedHardwareType:(NSString *)hardwareType{
-  [self.hardwareTypeLabel performSelectorOnMainThread:@selector(setStringValue:)
+  [hardwareTypeLabel performSelectorOnMainThread:@selector(setStringValue:)
                                            withObject:hardwareType
                                         waitUntilDone:NO];
 }
 
 - (void) debuggerController:(DebuggerController *)controller retrievedROMVersion:(NSString *)romVersion{
-  [self.romVersionLabel performSelectorOnMainThread:@selector(setStringValue:)
+  [romVersionLabel performSelectorOnMainThread:@selector(setStringValue:)
                                          withObject:romVersion
                                       waitUntilDone:NO];
 }
 
 - (void) debuggerController:(DebuggerController *)controller retrievedROMSize:(uint32_t)romSize{
   NSString *statusMessage = [self humanStringForBytes:romSize];
-  [self.romSizeLabel performSelectorOnMainThread:@selector(setStringValue:)
+  [romSizeLabel performSelectorOnMainThread:@selector(setStringValue:)
                                       withObject:statusMessage
                                    waitUntilDone:NO];
   

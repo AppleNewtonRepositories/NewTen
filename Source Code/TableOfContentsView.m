@@ -10,9 +10,10 @@
 
 #define ItemPadding 4
 
-@implementation TableOfContentsView {
-  NSArray *_pageViews;
-}
+@implementation TableOfContentsView
+
+@synthesize titles = _titles;
+@synthesize selectedTitleIndex = _selectedTitleIndex;
 
 - (void) dealloc {
   [_pageViews release], _pageViews = nil;
@@ -38,8 +39,9 @@
 
 - (void) _updateSelectedPage {
   NSInteger numOfTitles = [self.titles count];
-  
-  for (NSInteger titleIndex=0; titleIndex<numOfTitles; titleIndex++) {
+	NSInteger titleIndex;
+	
+  for (titleIndex=0; titleIndex<numOfTitles; titleIndex++) {
     PageView *pageView = [_pageViews objectAtIndex:titleIndex];
     pageView.selected = (titleIndex == _selectedTitleIndex);
   }
@@ -91,6 +93,8 @@
 
 @implementation DotView
 
+@synthesize selected = _selected;
+
 - (void) setSelected:(BOOL)selected {
   if (selected == _selected) {
     return;
@@ -121,7 +125,11 @@
 
 @implementation PageView
 
-- (instancetype) initWithFrame:(NSRect)frameRect {
+@synthesize dotView = _dotView;
+@synthesize textLabel = _textLabel;
+@synthesize selected = _selected;
+
+- (id) initWithFrame:(NSRect)frameRect {
   self = [super initWithFrame:frameRect];
   if (self != nil) {
     _dotView = [[[DotView alloc] initWithFrame:NSMakeRect(0, 5, 8, 8)] autorelease];
@@ -129,20 +137,20 @@
 
     CGFloat maxLabelWidth = frameRect.size.width - 20;
     _textLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(10, 0, maxLabelWidth, frameRect.size.height)] autorelease];
-    _textLabel.preferredMaxLayoutWidth = maxLabelWidth;
     _textLabel.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _textLabel.font = [NSFont systemFontOfSize:[NSFont systemFontSize]];
     _textLabel.drawsBackground = NO;
     _textLabel.backgroundColor = nil;
-    _textLabel.bordered = NO;
     _textLabel.focusRingType = NSFocusRingTypeNone;
-    _textLabel.textColor = [NSColor labelColor];
-    _textLabel.editable = NO;
-    _textLabel.maximumNumberOfLines = 0;
-    _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _textLabel.cell.wraps = YES;
-    _textLabel.cell.scrollable = NO;
-    _textLabel.cell.usesSingleLineMode = NO;
+	  _textLabel.textColor = [NSColor blackColor];
+	  [_textLabel setBordered:NO];
+	  [_textLabel setEditable:NO];
+//    _textLabel.maximumNumberOfLines = 0;
+	  NSTextFieldCell *cell = [_textLabel cell];
+	  [cell setWraps:YES];
+	  [cell setScrollable:NO];
+	  [cell setLineBreakMode:NSLineBreakByWordWrapping];
+//    _textLabel.cell.usesSingleLineMode = NO;
     [self addSubview:_textLabel];
   }
   return self;
