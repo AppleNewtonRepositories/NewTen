@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern NSString * const TableOfContentsViewURLClickedNotification;
+
 @interface TableOfContentsView : NSView {
   NSArray *_pageViews;
   NSArray *_titles;

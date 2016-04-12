@@ -7,8 +7,11 @@
 //
 
 #import "TableOfContentsView.h"
+#import "DSClickableURLTextField.h"
 
 #define ItemPadding 4
+
+NSString * const TableOfContentsViewURLClickedNotification = @"TableOfContentsViewURLClickedNotification";
 
 @implementation TableOfContentsView
 
@@ -65,7 +68,16 @@
   for (NSString *aTitle in self.titles) {
     PageView *pageView = [[[PageView alloc] init] autorelease];
     pageView.autoresizingMask = NSViewWidthSizable;
-    pageView.textLabel.stringValue = aTitle;
+    if ([aTitle isKindOfClass:[NSAttributedString class]] == YES) {
+      NSMutableAttributedString *styledString = [(NSAttributedString *)aTitle mutableCopy];
+      NSFont *font = [NSFont systemFontOfSize:[pageView.textLabel.font pointSize]];
+      [styledString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [styledString length])];
+      pageView.textLabel.attributedStringValue = styledString;
+      pageView.textLabel.delegate = self;
+    }
+    else {
+      pageView.textLabel.stringValue = aTitle;
+    }
     [self addSubview:pageView];
     [pageViews addObject:pageView];
   }
@@ -87,6 +99,13 @@
 - (void) setSelectedTitleIndex:(NSInteger)selectedTitleIndex {
   _selectedTitleIndex = selectedTitleIndex;
   [self _updateSelectedPage];
+}
+
+- (BOOL) textField:(NSTextField *)textField openURL:(NSURL *)url {
+  [[NSNotificationCenter defaultCenter] postNotificationName:TableOfContentsViewURLClickedNotification
+                                                      object:self
+                                                    userInfo:[NSDictionary dictionaryWithObject:url forKey:@"url"]];
+  return YES;
 }
 
 @end
@@ -136,21 +155,21 @@
     [self addSubview:_dotView];
 
     CGFloat maxLabelWidth = frameRect.size.width - 20;
-    _textLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(10, 0, maxLabelWidth, frameRect.size.height)] autorelease];
+    _textLabel = [[[DSClickableURLTextField alloc] initWithFrame:NSMakeRect(10, 0, maxLabelWidth, frameRect.size.height)] autorelease];
     _textLabel.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _textLabel.font = [NSFont systemFontOfSize:[NSFont systemFontSize]];
     _textLabel.drawsBackground = NO;
     _textLabel.backgroundColor = nil;
     _textLabel.focusRingType = NSFocusRingTypeNone;
 	  _textLabel.textColor = [NSColor blackColor];
-	  [_textLabel setBordered:NO];
+    [_textLabel setSelectable:YES];
+    [_textLabel setAllowsEditingTextAttributes:YES];
+    [_textLabel setBordered:NO];
 	  [_textLabel setEditable:NO];
-//    _textLabel.maximumNumberOfLines = 0;
 	  NSTextFieldCell *cell = [_textLabel cell];
 	  [cell setWraps:YES];
 	  [cell setScrollable:NO];
 	  [cell setLineBreakMode:NSLineBreakByWordWrapping];
-//    _textLabel.cell.usesSingleLineMode = NO;
     [self addSubview:_textLabel];
   }
   return self;
@@ -163,7 +182,7 @@
 - (void) sizeToFit {
   NSRect frame = self.frame;
   
-  NSRect textRect = [_textLabel.stringValue boundingRectWithSize:NSMakeSize(frame.size.width - 20, CGFLOAT_MAX)
+  NSRect textRect = [_textLabel.stringValue boundingRectWithSize:NSMakeSize(frame.size.width - 22, CGFLOAT_MAX)
                                                          options:NSStringDrawingUsesLineFragmentOrigin
                                                       attributes:[NSDictionary dictionaryWithObject:_textLabel.font forKey:NSFontAttributeName]];
   
