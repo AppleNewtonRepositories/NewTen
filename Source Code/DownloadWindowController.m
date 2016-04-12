@@ -324,8 +324,7 @@
   [self.romSizeLabel setStringValue:NSLocalizedString(@"Unknown", @"Unknown")];
 
   [NSApp runModalForWindow:self.downloadPanel];
-  [self dismissDownloadPanel];
-  [self.downloadPanel close];
+  [self.downloadPanel orderOut:nil];
 }
 
 - (void)dismissDownloadPanel {
