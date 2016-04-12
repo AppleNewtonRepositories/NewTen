@@ -11,6 +11,28 @@
 		F12CD1021CBC32B2002129E1 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F12CD0FC1CBC32B2002129E1 /* Credits.rtf */; };
 		F12CD1031CBC32B2002129E1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F12CD0FE1CBC32B2002129E1 /* InfoPlist.strings */; };
 		F12CD1041CBC32B2002129E1 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = F12CD1001CBC32B2002129E1 /* MainMenu.nib */; };
+		F12CD1101CBC339B002129E1 /* nos1-button-bar.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD1071CBC339B002129E1 /* nos1-button-bar.png */; };
+		F12CD1111CBC339B002129E1 /* nos1-connect-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD1081CBC339B002129E1 /* nos1-connect-highlighted.png */; };
+		F12CD1121CBC339B002129E1 /* nos1-debugger-sheet.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD1091CBC339B002129E1 /* nos1-debugger-sheet.png */; };
+		F12CD1131CBC339B002129E1 /* nos1-easter-egg-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD10A1CBC339B002129E1 /* nos1-easter-egg-dot.png */; };
+		F12CD1141CBC339B002129E1 /* nos1-extras-drawer.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD10B1CBC339B002129E1 /* nos1-extras-drawer.png */; };
+		F12CD1151CBC339B002129E1 /* nos1-notes.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD10C1CBC339B002129E1 /* nos1-notes.png */; };
+		F12CD1161CBC339B002129E1 /* nos1-radio-button-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD10D1CBC339B002129E1 /* nos1-radio-button-highlighted.png */; };
+		F12CD1171CBC339B002129E1 /* nos1-radio-button-off.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD10E1CBC339B002129E1 /* nos1-radio-button-off.png */; };
+		F12CD1181CBC339B002129E1 /* nos1-radio-button-on.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD10F1CBC339B002129E1 /* nos1-radio-button-on.png */; };
+		F12CD11C1CBC33B0002129E1 /* nos2-debug-sheet.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD1191CBC33B0002129E1 /* nos2-debug-sheet.png */; };
+		F12CD11D1CBC33B0002129E1 /* nos2-extras-drawer.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD11A1CBC33B0002129E1 /* nos2-extras-drawer.png */; };
+		F12CD11E1CBC33B0002129E1 /* nos2-notes.png in Resources */ = {isa = PBXBuildFile; fileRef = F12CD11B1CBC33B0002129E1 /* nos2-notes.png */; };
+		F12CD1201CBC340B002129E1 /* nos1-setup-script.plist in Resources */ = {isa = PBXBuildFile; fileRef = F12CD11F1CBC340B002129E1 /* nos1-setup-script.plist */; };
+		F12CD1251CBC3473002129E1 /* ScreencastView.m in Sources */ = {isa = PBXBuildFile; fileRef = F12CD1221CBC3473002129E1 /* ScreencastView.m */; };
+		F12CD1261CBC3473002129E1 /* TableOfContentsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F12CD1241CBC3473002129E1 /* TableOfContentsView.m */; };
+		F12CD1291CBC367A002129E1 /* ROMDownload.nib in Resources */ = {isa = PBXBuildFile; fileRef = F12CD1271CBC367A002129E1 /* ROMDownload.nib */; };
+		F12CD12C1CBC36A2002129E1 /* DownloadWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F12CD12B1CBC36A2002129E1 /* DownloadWindowController.m */; };
+		F12CD12E1CBC3B3A002129E1 /* nos2-setup-script.plist in Resources */ = {isa = PBXBuildFile; fileRef = F12CD12D1CBC3B3A002129E1 /* nos2-setup-script.plist */; };
+		F12CD13B1CBC7B58002129E1 /* PauseQTPrivateTemplate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F12CD1371CBC7B58002129E1 /* PauseQTPrivateTemplate.tiff */; };
+		F12CD13C1CBC7B58002129E1 /* PauseQTPrivateTemplate@2x.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F12CD1381CBC7B58002129E1 /* PauseQTPrivateTemplate@2x.tiff */; };
+		F12CD13D1CBC7B58002129E1 /* PlayTemplate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F12CD1391CBC7B58002129E1 /* PlayTemplate.tiff */; };
+		F12CD13E1CBC7B58002129E1 /* PlayTemplate@2x.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F12CD13A1CBC7B58002129E1 /* PlayTemplate@2x.tiff */; };
 		F18FA4801CB8B7920013F7A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FA47F1CB8B7920013F7A7 /* AppDelegate.m */; };
 		F18FA4891CB8B7EE0013F7A7 /* PackageController.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FA4881CB8B7EE0013F7A7 /* PackageController.m */; };
 		F1B6C55A091C7DCD0044B483 /* NewTen.icns in Resources */ = {isa = PBXBuildFile; fileRef = F53BDED502278DFC01000104 /* NewTen.icns */; };
@@ -30,6 +52,31 @@
 		F12CD0FC1CBC32B2002129E1 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		F12CD0FF1CBC32B2002129E1 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		F12CD1011CBC32B2002129E1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = MainMenu.nib; sourceTree = "<group>"; };
+		F12CD1071CBC339B002129E1 /* nos1-button-bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos1-button-bar.png"; sourceTree = "<group>"; };
+		F12CD1081CBC339B002129E1 /* nos1-connect-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos1-connect-highlighted.png"; sourceTree = "<group>"; };
+		F12CD1091CBC339B002129E1 /* nos1-debugger-sheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos1-debugger-sheet.png"; sourceTree = "<group>"; };
+		F12CD10A1CBC339B002129E1 /* nos1-easter-egg-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos1-easter-egg-dot.png"; sourceTree = "<group>"; };
+		F12CD10B1CBC339B002129E1 /* nos1-extras-drawer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos1-extras-drawer.png"; sourceTree = "<group>"; };
+		F12CD10C1CBC339B002129E1 /* nos1-notes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos1-notes.png"; sourceTree = "<group>"; };
+		F12CD10D1CBC339B002129E1 /* nos1-radio-button-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos1-radio-button-highlighted.png"; sourceTree = "<group>"; };
+		F12CD10E1CBC339B002129E1 /* nos1-radio-button-off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos1-radio-button-off.png"; sourceTree = "<group>"; };
+		F12CD10F1CBC339B002129E1 /* nos1-radio-button-on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos1-radio-button-on.png"; sourceTree = "<group>"; };
+		F12CD1191CBC33B0002129E1 /* nos2-debug-sheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos2-debug-sheet.png"; sourceTree = "<group>"; };
+		F12CD11A1CBC33B0002129E1 /* nos2-extras-drawer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos2-extras-drawer.png"; sourceTree = "<group>"; };
+		F12CD11B1CBC33B0002129E1 /* nos2-notes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nos2-notes.png"; sourceTree = "<group>"; };
+		F12CD11F1CBC340B002129E1 /* nos1-setup-script.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "nos1-setup-script.plist"; sourceTree = "<group>"; };
+		F12CD1211CBC3473002129E1 /* ScreencastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreencastView.h; sourceTree = "<group>"; };
+		F12CD1221CBC3473002129E1 /* ScreencastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreencastView.m; sourceTree = "<group>"; };
+		F12CD1231CBC3473002129E1 /* TableOfContentsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableOfContentsView.h; sourceTree = "<group>"; };
+		F12CD1241CBC3473002129E1 /* TableOfContentsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableOfContentsView.m; sourceTree = "<group>"; };
+		F12CD1281CBC367A002129E1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ROMDownload.nib; sourceTree = "<group>"; };
+		F12CD12A1CBC36A2002129E1 /* DownloadWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadWindowController.h; sourceTree = "<group>"; };
+		F12CD12B1CBC36A2002129E1 /* DownloadWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadWindowController.m; sourceTree = "<group>"; };
+		F12CD12D1CBC3B3A002129E1 /* nos2-setup-script.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "nos2-setup-script.plist"; sourceTree = "<group>"; };
+		F12CD1371CBC7B58002129E1 /* PauseQTPrivateTemplate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PauseQTPrivateTemplate.tiff; sourceTree = "<group>"; };
+		F12CD1381CBC7B58002129E1 /* PauseQTPrivateTemplate@2x.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "PauseQTPrivateTemplate@2x.tiff"; sourceTree = "<group>"; };
+		F12CD1391CBC7B58002129E1 /* PlayTemplate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PlayTemplate.tiff; sourceTree = "<group>"; };
+		F12CD13A1CBC7B58002129E1 /* PlayTemplate@2x.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "PlayTemplate@2x.tiff"; sourceTree = "<group>"; };
 		F18FA47E1CB8B7920013F7A7 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F18FA47F1CB8B7920013F7A7 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F18FA4871CB8B7EE0013F7A7 /* PackageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackageController.h; sourceTree = "<group>"; };
@@ -64,6 +111,12 @@
 				F12CD0FA1CBC1659002129E1 /* DebuggerController.m */,
 				F1B6C5E7091C86C20044B483 /* NewtonConnection.h */,
 				F1B6C5E8091C86C20044B483 /* NewtonConnection.m */,
+				F12CD12A1CBC36A2002129E1 /* DownloadWindowController.h */,
+				F12CD12B1CBC36A2002129E1 /* DownloadWindowController.m */,
+				F12CD1211CBC3473002129E1 /* ScreencastView.h */,
+				F12CD1221CBC3473002129E1 /* ScreencastView.m */,
+				F12CD1231CBC3473002129E1 /* TableOfContentsView.h */,
+				F12CD1241CBC3473002129E1 /* TableOfContentsView.m */,
 			);
 			name = Classes;
 			sourceTree = SOURCE_ROOT;
@@ -100,9 +153,16 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F12CD1051CBC336F002129E1 /* NOS1 Assets */,
+				F12CD1061CBC3377002129E1 /* NOS2 Assets */,
+				F12CD1371CBC7B58002129E1 /* PauseQTPrivateTemplate.tiff */,
+				F12CD1381CBC7B58002129E1 /* PauseQTPrivateTemplate@2x.tiff */,
+				F12CD1391CBC7B58002129E1 /* PlayTemplate.tiff */,
+				F12CD13A1CBC7B58002129E1 /* PlayTemplate@2x.tiff */,
 				F12CD0FC1CBC32B2002129E1 /* Credits.rtf */,
 				F12CD0FE1CBC32B2002129E1 /* InfoPlist.strings */,
 				F12CD1001CBC32B2002129E1 /* MainMenu.nib */,
+				F12CD1271CBC367A002129E1 /* ROMDownload.nib */,
 				F113903B050B0E0D00000103 /* Instructions.rtf */,
 				F1B6C566091C7DCD0044B483 /* Info.plist */,
 				F53BDED502278DFC01000104 /* NewTen.icns */,
@@ -116,6 +176,34 @@
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F12CD1051CBC336F002129E1 /* NOS1 Assets */ = {
+			isa = PBXGroup;
+			children = (
+				F12CD11F1CBC340B002129E1 /* nos1-setup-script.plist */,
+				F12CD1071CBC339B002129E1 /* nos1-button-bar.png */,
+				F12CD1081CBC339B002129E1 /* nos1-connect-highlighted.png */,
+				F12CD1091CBC339B002129E1 /* nos1-debugger-sheet.png */,
+				F12CD10A1CBC339B002129E1 /* nos1-easter-egg-dot.png */,
+				F12CD10B1CBC339B002129E1 /* nos1-extras-drawer.png */,
+				F12CD10C1CBC339B002129E1 /* nos1-notes.png */,
+				F12CD10D1CBC339B002129E1 /* nos1-radio-button-highlighted.png */,
+				F12CD10E1CBC339B002129E1 /* nos1-radio-button-off.png */,
+				F12CD10F1CBC339B002129E1 /* nos1-radio-button-on.png */,
+			);
+			path = "NOS1 Assets";
+			sourceTree = "<group>";
+		};
+		F12CD1061CBC3377002129E1 /* NOS2 Assets */ = {
+			isa = PBXGroup;
+			children = (
+				F12CD12D1CBC3B3A002129E1 /* nos2-setup-script.plist */,
+				F12CD1191CBC33B0002129E1 /* nos2-debug-sheet.png */,
+				F12CD11A1CBC33B0002129E1 /* nos2-extras-drawer.png */,
+				F12CD11B1CBC33B0002129E1 /* nos2-notes.png */,
+			);
+			path = "NOS2 Assets";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,11 +256,30 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F12CD1291CBC367A002129E1 /* ROMDownload.nib in Resources */,
+				F12CD11E1CBC33B0002129E1 /* nos2-notes.png in Resources */,
+				F12CD1141CBC339B002129E1 /* nos1-extras-drawer.png in Resources */,
+				F12CD11D1CBC33B0002129E1 /* nos2-extras-drawer.png in Resources */,
+				F12CD13C1CBC7B58002129E1 /* PauseQTPrivateTemplate@2x.tiff in Resources */,
+				F12CD1131CBC339B002129E1 /* nos1-easter-egg-dot.png in Resources */,
 				F12CD1031CBC32B2002129E1 /* InfoPlist.strings in Resources */,
+				F12CD11C1CBC33B0002129E1 /* nos2-debug-sheet.png in Resources */,
 				F12CD1021CBC32B2002129E1 /* Credits.rtf in Resources */,
 				F12CD1041CBC32B2002129E1 /* MainMenu.nib in Resources */,
+				F12CD13E1CBC7B58002129E1 /* PlayTemplate@2x.tiff in Resources */,
+				F12CD1121CBC339B002129E1 /* nos1-debugger-sheet.png in Resources */,
+				F12CD1151CBC339B002129E1 /* nos1-notes.png in Resources */,
+				F12CD12E1CBC3B3A002129E1 /* nos2-setup-script.plist in Resources */,
+				F12CD1201CBC340B002129E1 /* nos1-setup-script.plist in Resources */,
 				F1B6C55A091C7DCD0044B483 /* NewTen.icns in Resources */,
+				F12CD1161CBC339B002129E1 /* nos1-radio-button-highlighted.png in Resources */,
+				F12CD1111CBC339B002129E1 /* nos1-connect-highlighted.png in Resources */,
+				F12CD1171CBC339B002129E1 /* nos1-radio-button-off.png in Resources */,
+				F12CD1181CBC339B002129E1 /* nos1-radio-button-on.png in Resources */,
+				F12CD1101CBC339B002129E1 /* nos1-button-bar.png in Resources */,
+				F12CD13D1CBC7B58002129E1 /* PlayTemplate.tiff in Resources */,
 				F1B6C55B091C7DCD0044B483 /* Instructions.rtf in Resources */,
+				F12CD13B1CBC7B58002129E1 /* PauseQTPrivateTemplate.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,8 +291,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1B6C55D091C7DCD0044B483 /* main.m in Sources */,
+				F12CD12C1CBC36A2002129E1 /* DownloadWindowController.m in Sources */,
 				F1B6C5E9091C86C20044B483 /* NewtonConnection.m in Sources */,
 				F18FA4801CB8B7920013F7A7 /* AppDelegate.m in Sources */,
+				F12CD1251CBC3473002129E1 /* ScreencastView.m in Sources */,
+				F12CD1261CBC3473002129E1 /* TableOfContentsView.m in Sources */,
 				F18FA4891CB8B7EE0013F7A7 /* PackageController.m in Sources */,
 				F12CD0FB1CBC1659002129E1 /* DebuggerController.m in Sources */,
 			);
@@ -210,6 +320,14 @@
 			);
 			name = MainMenu.nib;
 			path = English.lproj;
+			sourceTree = "<group>";
+		};
+		F12CD1271CBC367A002129E1 /* ROMDownload.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F12CD1281CBC367A002129E1 /* English */,
+			);
+			name = ROMDownload.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
