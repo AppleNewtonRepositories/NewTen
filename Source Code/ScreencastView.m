@@ -63,7 +63,7 @@
     NSLog(@"%s couldn't find image view for identifier:%@", __PRETTY_FUNCTION__, identifier);
   }
   else {
-	  [imageView setHidden:YES];
+	  [imageView setHidden:hidden];
   }
 }
 
