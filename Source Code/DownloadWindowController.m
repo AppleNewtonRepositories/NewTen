@@ -252,7 +252,7 @@
 #pragma mark - Actions
 - (IBAction)dismiss:(id)sender {
   if ([self.window isSheet] == YES) {
-    [[NSApp mainWindow] endSheet:[self window]];
+    [NSApp endSheet:[self window]];
   }
   else {
     [self.window close];
