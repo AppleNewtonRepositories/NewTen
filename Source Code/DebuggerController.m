@@ -430,6 +430,7 @@ enum {
     [romData appendBytes:recvData length:chunkLength];
     addr += chunkLength;
     [delegate updateProgress:[NSNumber numberWithInt:addr]];
+    readSize = MIN(readSize, length - addr);
   }
   
   return romData;
