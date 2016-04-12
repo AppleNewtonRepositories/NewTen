@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment version="1020" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="DownloadWindowController">
+            <connections>
+                <outlet property="closeButton" destination="JkP-Lv-qRU" id="tQd-Tj-FOd"/>
+                <outlet property="contentView" destination="O7S-iJ-WQ8" id="QdM-1t-u5w"/>
+                <outlet property="downloadButton" destination="3eE-tG-bTx" id="mSj-H8-WAH"/>
+                <outlet property="downloadPanel" destination="glC-oi-LC5" id="p7W-3J-33G"/>
+                <outlet property="hardwareTypeLabel" destination="RHl-fW-ymN" id="BX3-sT-VxQ"/>
+                <outlet property="manufacturerLabel" destination="hJL-oe-XAt" id="9Zp-cR-jaa"/>
+                <outlet property="progressIndicator" destination="H7S-Y7-g8C" id="XGS-Lo-kNW"/>
+                <outlet property="romSizeLabel" destination="RW1-jx-Fpm" id="NAr-Kn-5Ve"/>
+                <outlet property="romVersionLabel" destination="vPW-Qo-gZv" id="vPK-w5-IRl"/>
+                <outlet property="screencast" destination="H90-gh-fno" id="Adq-BH-XXp"/>
+                <outlet property="screencastButtons" destination="5WW-lQ-S0L" id="2ei-q6-ynq"/>
+                <outlet property="statusLabel" destination="ZO1-WS-cSq" id="WDO-VC-yu9"/>
+                <outlet property="tabView" destination="aaL-gF-fDp" id="zKX-2O-oew"/>
+                <outlet property="toc" destination="tiL-6I-dgg" id="Qmg-gq-M9L"/>
+                <outlet property="window" destination="KvE-zZ-anI" id="3aw-kJ-khL"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="ROM Download" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="" animationBehavior="default" id="KvE-zZ-anI">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="109" y="131" width="661" height="580"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <value key="minSize" type="size" width="661" height="561"/>
+            <value key="maxSize" type="size" width="661" height="561"/>
+            <view key="contentView" id="Fdc-Wl-MKS">
+                <rect key="frame" x="0.0" y="0.0" width="661" height="580"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <tabView id="aaL-gF-fDp">
+                        <rect key="frame" x="13" y="10" width="635" height="564"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <tabViewItems>
+                            <tabViewItem label="Newton OS v1.x" identifier="1" id="SSB-dp-evg">
+                                <view key="view" id="pdr-NZ-fo9">
+                                    <rect key="frame" x="10" y="33" width="615" height="518"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Newton OS v2.x" identifier="2" id="9uO-Lw-D7D">
+                                <view key="view" id="2Wt-0p-hVz">
+                                    <rect key="frame" x="10" y="33" width="615" height="518"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                            </tabViewItem>
+                        </tabViewItems>
+                        <connections>
+                            <outlet property="delegate" destination="-2" id="0hM-Ha-7ak"/>
+                        </connections>
+                    </tabView>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="263.5" y="726"/>
+        </window>
+        <customView id="O7S-iJ-WQ8">
+            <rect key="frame" x="0.0" y="0.0" width="513" height="455"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <customView id="H90-gh-fno" customClass="ScreencastView">
+                    <rect key="frame" x="20" y="51" width="240" height="384"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                </customView>
+                <button verticalHuggingPriority="750" id="3eE-tG-bTx">
+                    <rect key="frame" x="365" y="15" width="134" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Download ROM" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="m5X-mv-3ix">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="download:" target="-2" id="reI-3U-tPp"/>
+                    </connections>
+                </button>
+                <customView id="tiL-6I-dgg" customClass="TableOfContentsView">
+                    <rect key="frame" x="278" y="51" width="215" height="384"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                </customView>
+                <customView id="5WW-lQ-S0L">
+                    <rect key="frame" x="88" y="20" width="104" height="23"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <button verticalHuggingPriority="750" id="9BI-N0-ber">
+                            <rect key="frame" x="40" y="-1" width="25" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSGoRightTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="afJ-Ko-UZ2">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="toggleAutoplayTimer:" target="-2" id="l1q-Px-y8y"/>
+                                <binding destination="-2" name="image" keyPath="playPauseButtonImage" id="xUS-mS-ruo"/>
+                            </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" id="Y43-Dn-BMu">
+                            <rect key="frame" x="79" y="-1" width="25" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSGoRightTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eVM-LG-Af5">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="renderNextStep:" target="-2" id="wOG-LU-HjZ"/>
+                            </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" id="C3m-SI-1ZO">
+                            <rect key="frame" x="0.0" y="-1" width="25" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSGoLeftTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OMO-m0-c2I">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="renderPreviousStep:" target="-2" id="diY-Km-f2O"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </customView>
+                <button verticalHuggingPriority="750" id="JkP-Lv-qRU">
+                    <rect key="frame" x="290" y="15" width="75" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NgL-bl-haQ">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="dismiss:" target="-2" id="0KR-3A-Uwx"/>
+                    </connections>
+                </button>
+            </subviews>
+            <point key="canvasLocation" x="945.5" y="693.5"/>
+        </customView>
+        <window title="ROM Download Status" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="glC-oi-LC5" userLabel="Panel" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="150" y="391" width="381" height="177"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <view key="contentView" id="jN7-Xv-j1m">
+                <rect key="frame" x="0.0" y="0.0" width="381" height="177"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <progressIndicator wantsLayer="YES" verticalHuggingPriority="750" maxValue="100" bezeled="NO" style="bar" id="H7S-Y7-g8C">
+                        <rect key="frame" x="20" y="138" width="341" height="20"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    </progressIndicator>
+                    <matrix verticalHuggingPriority="750" mode="highlight" allowsEmptySelection="NO" id="Eji-PC-iVw">
+                        <rect key="frame" x="20" y="46" width="330" height="85"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        <size key="cellSize" width="161" height="17"/>
+                        <size key="intercellSpacing" width="8" height="0.0"/>
+                        <textFieldCell key="prototype" sendsActionOnEndEditing="YES" alignment="left" title="Status:" id="k5s-tR-RTz">
+                            <font key="font" metaFont="systemBold" size="11"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <cells>
+                            <column>
+                                <textFieldCell sendsActionOnEndEditing="YES" alignment="right" title="Status:" id="gN3-gC-JbB">
+                                    <font key="font" metaFont="systemBold" size="11"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <textFieldCell sendsActionOnEndEditing="YES" alignment="right" title="Hardware Type:" id="zgr-vp-Nxz">
+                                    <font key="font" metaFont="systemBold" size="11"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <textFieldCell sendsActionOnEndEditing="YES" alignment="right" title="Manufacturer:" id="5H8-sj-RTd">
+                                    <font key="font" metaFont="systemBold" size="11"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <textFieldCell sendsActionOnEndEditing="YES" alignment="right" title="OS Version:" id="fMn-f8-odg">
+                                    <font key="font" metaFont="systemBold" size="11"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <textFieldCell sendsActionOnEndEditing="YES" alignment="right" title="ROM Size:" id="22d-fd-Luo">
+                                    <font key="font" metaFont="systemBold" size="11"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </column>
+                            <column>
+                                <textFieldCell sendsActionOnEndEditing="YES" alignment="left" title="Idle" id="ZO1-WS-cSq">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <textFieldCell sendsActionOnEndEditing="YES" alignment="left" title="Unknown" id="RHl-fW-ymN">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <textFieldCell sendsActionOnEndEditing="YES" alignment="left" title="Unknown" id="hJL-oe-XAt">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <textFieldCell sendsActionOnEndEditing="YES" alignment="left" title="Unknown" id="vPW-Qo-gZv">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <textFieldCell sendsActionOnEndEditing="YES" alignment="left" title="Unknown" id="RW1-jx-Fpm">
+                                    <font key="font" metaFont="system" size="11"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </column>
+                        </cells>
+                    </matrix>
+                    <button verticalHuggingPriority="750" id="iMP-19-1Zb">
+                        <rect key="frame" x="301" y="14" width="65" height="28"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="arf-UH-4GI">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="cancel:" target="-2" id="dLy-Nl-474"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="459.5" y="300.5"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="NSGoLeftTemplate" width="9" height="12"/>
+        <image name="NSGoRightTemplate" width="9" height="12"/>
+    </resources>
+</document>
