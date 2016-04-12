@@ -3,7 +3,7 @@
 //  NewTen
 //
 //  Created by Steve White on 4/8/16.
-//
+//  Copyright © 2016 Steve White. All rights reserved.
 //
 
 #import "DebuggerController.h"
@@ -78,8 +78,12 @@ enum {
   return _useBisyncFrames;
 }
 
-- (AppDelegate *) delegate {
-  return (id)[NSApp delegate];
+- (void) setDelegate:(id<DebuggerControllerDelegate>)delegate {
+  _delegate = delegate;
+}
+
+- (id<DebuggerControllerDelegate>) delegate {
+  return _delegate;
 }
 
 #pragma mark - Reading
@@ -264,31 +268,6 @@ enum {
   return [NSString stringWithFormat:@"v%i.%i", romVersion >> 16, romVersion & 0xffff];
 }
 
-- (NSString *) deviceDescription {
-  uint32_t *recvData = (uint32_t *)&_recvBuf[1];
-  
-  // Read gROMManufacturer
-  [self sendReadMemoryCommandWithAddress:0x000013f0 length:4];
-  _romManufacturer = HTONL(recvData[0]);
-  
-  // Read gHardwareType
-  [self sendReadMemoryCommandWithAddress:0x000013ec length:4];
-  _hardwareType = HTONL(recvData[0]);
-  
-  // Read gROMVersion
-  [self sendReadMemoryCommandWithAddress:0x000013dc length:4];
-  _romVersion = HTONL(recvData[0]);
-  
-  NSArray *components = @[
-                          [self descriptionForManufacturer:_romManufacturer],
-                          [self descriptionForHardwareType:_hardwareType fromManufacturer:_romManufacturer],
-                          [self descriptionForROMVersion:_romVersion],
-                          ];
-  
-  NSString *hardwareInfo = [components componentsJoinedByString:@" "];
-  return hardwareInfo;
-}
-
 - (uint32_t) determineROMSize {
   if (_romVersion < 0x00010002) {
     // On Junior hardware with 1.0.x and 1.1.x, when we attempt to
@@ -323,13 +302,31 @@ enum {
   return addr;
 }
 
+- (void) retrieveHardwareInfo {
+  uint32_t *recvData = (uint32_t *)&_recvBuf[1];
+  
+  // Read gROMManufacturer
+  [self sendReadMemoryCommandWithAddress:0x000013f0 length:4];
+  _romManufacturer = HTONL(recvData[0]);
+  
+  // Read gHardwareType
+  [self sendReadMemoryCommandWithAddress:0x000013ec length:4];
+  _hardwareType = HTONL(recvData[0]);
+  
+  // Read gROMVersion
+  [self sendReadMemoryCommandWithAddress:0x000013dc length:4];
+  _romVersion = HTONL(recvData[0]);
+  
+  _romSize = [self determineROMSize];
+}
+
 #pragma mark - Initial handshaking
 - (void) handleBisyncFrameHandshake {
   // Wait to receive an inquiry
   [self readDataForResponse:ResponseInquiry];
   
   // Send handshake
-  [[self delegate] updateStatus:NSLocalizedString(@"Handshaking...", @"Handshaking...")];
+  [[self delegate] debuggerController:self updatedStatusMessage:NSLocalizedString(@"Handshaking...", @"Handshaking...")];
   uint8_t handshake[] = {0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x82, 0x00, 0x00};
   [self sendRequestWithCommand:CommandUnknown body:&handshake[0] length:sizeof(handshake)];
   
@@ -348,7 +345,7 @@ enum {
 }
 
 - (void) handlePingPongHandshake {
-  [[self delegate] updateStatus:NSLocalizedString(@"Handshaking...", @"Handshaking...")];
+  [[self delegate] debuggerController:self updatedStatusMessage:NSLocalizedString(@"Handshaking...", @"Handshaking...")];
 
   while (true) {
     if (_giveUp == true) {
@@ -380,8 +377,7 @@ enum {
   uint32_t *recvData = NULL;
   uint32_t addr = 0;
   
-  AppDelegate *delegate = [self delegate];
-  [delegate updateProgressMax:[NSNumber numberWithInt:length]];
+  id<DebuggerControllerDelegate> delegate = [self delegate];
 
   uint8_t readSize;
   if (_romVersion < 0x00020000) {
@@ -429,7 +425,7 @@ enum {
     
     [romData appendBytes:recvData length:chunkLength];
     addr += chunkLength;
-    [delegate updateProgress:[NSNumber numberWithInt:addr]];
+    [delegate debuggerController:self updatedProgressValue:addr];
     readSize = MIN(readSize, length - addr);
   }
   
@@ -439,9 +435,9 @@ enum {
 #pragma mark -
 - (void) main {
   
-  AppDelegate *delegate = [self delegate];
-  [delegate showStatusSheet];
-  [delegate updateStatus:NSLocalizedString(@"Setting up serial port...", @"Setting up serial port...")];
+  id<DebuggerControllerDelegate> delegate = [self delegate];
+  [delegate debuggerControllerDidStart:self];
+  [delegate debuggerController:self updatedStatusMessage:NSLocalizedString(@"Setting up serial port...", @"Setting up serial port...")];
   
   int speed;
   if (_useBisyncFrames == true) {
@@ -454,7 +450,7 @@ enum {
   
   // Wait for Newton to connect
   
-  [delegate updateStatus:NSLocalizedString(@"Waiting for Newton Debugger connection...", @"Waiting for Newton Debugger connection...")];
+  [delegate debuggerController:self updatedStatusMessage:NSLocalizedString(@"Waiting for Newton Debugger connection...", @"Waiting for Newton Debugger connection...")];
   
   if (_giveUp == true) {
     goto bail;
@@ -463,22 +459,28 @@ enum {
   @try {
     [self handleHandshake];
     
-    [delegate updateStatus:NSLocalizedString(@"Detecting Newton type...", @"Detecting Newton type...")];
-    NSString *deviceDescription = [self deviceDescription];
-    [delegate updateStatus:deviceDescription];
+    [delegate debuggerController:self updatedStatusMessage:NSLocalizedString(@"Detecting Newton type...", @"Detecting Newton type...")];
+    [self retrieveHardwareInfo];
     
-    uint32_t romSize = [self determineROMSize];
-    if (romSize > 0) {
-      NSString *humanSize = [NSString stringWithFormat:@" (%i MB)", romSize / 1024 / 1024];
-      deviceDescription = [deviceDescription stringByAppendingString:humanSize];
-      [delegate updateStatus:deviceDescription];
-      
-      NSData *romData = [self dumpROMOfLength:romSize];
+    NSString *romVerison = [self descriptionForROMVersion:_romVersion];
+    NSString *manufacturer = [self descriptionForManufacturer:_romManufacturer];
+    NSString *hardwareType = [self descriptionForHardwareType:_hardwareType fromManufacturer:_romManufacturer];
+    
+    [delegate debuggerController:self retrievedROMVersion:romVerison];
+    [delegate debuggerController:self retrievedManufacturer:manufacturer];
+    [delegate debuggerController:self retrievedHardwareType:hardwareType];
+    [delegate debuggerController:self retrievedROMSize:_romSize];
+
+    if (_romSize > 0) {
+      [delegate debuggerController:self updatedStatusMessage:NSLocalizedString(@"Downloading ROM", @"Downloading ROM")];
+      NSData *romData = [self dumpROMOfLength:_romSize];
       if (romData != nil) {
-        [delegate saveData:romData withFilename:[deviceDescription stringByAppendingPathExtension:@"rom"]];
+        NSString *filename = [NSString stringWithFormat:@"%@ %@ %@.rom", manufacturer, hardwareType, romVerison];
+        [delegate debuggerController:self downloadedROMData:romData proposedFileName:filename];
       }
     }
-    [delegate updateStatus:NSLocalizedString(@"Finished", @"Finished")];
+
+    [delegate debuggerController:self updatedStatusMessage:NSLocalizedString(@"Finished", @"Finished")];
   }
   @catch (id e) {
     NSLog(@"%s caught: %@", __PRETTY_FUNCTION__, e);
@@ -486,7 +488,7 @@ enum {
   @finally {
     // Try to re-enable the Newton
     if (_romVersion >= 0x00020000) {
-      [delegate updateStatus:NSLocalizedString(@"Disconnecting", @"Disconnecting")];
+      [delegate debuggerController:self updatedStatusMessage:NSLocalizedString(@"Disconnecting", @"Disconnecting")];
       @try {
         [self sendGoCommand];
       }
@@ -500,7 +502,7 @@ bail:
   [_connection release];
   _connection = nil;
   
-  [delegate hideStatusSheet];
+  [delegate debuggerControllerDidFinish:self];
 }
 
 @end
