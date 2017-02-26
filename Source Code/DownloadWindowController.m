@@ -311,6 +311,22 @@
   self.steps = steps;
 }
 
+#pragma mark -
+- (void) downloadWithIntegrityCheck:(BOOL)useIntegrityCheck {
+  [self _stopAutoplayTimer];
+  
+  AppDelegate *appDelegate = (id)[NSApp delegate];
+  
+  _debugController = [[DebuggerController alloc] init];
+  [_debugController setDevicePath:[appDelegate devicePath]];
+  [_debugController setDelegate:self];
+  [_debugController setUseIntegrityChecks:useIntegrityCheck];
+  if ([self isOldNewtonSelected] == NO) {
+    _debugController.useBisyncFrames = YES;
+  }
+  [appDelegate startThreadForController:_debugController];
+}
+
 #pragma mark - Actions
 - (IBAction)dismiss:(id)sender {
   if ([self.window isSheet] == YES) {
@@ -322,17 +338,7 @@
 }
 
 - (IBAction)download:(id)sender {
-  [self _stopAutoplayTimer];
-
-  AppDelegate *appDelegate = (id)[NSApp delegate];
-
-  _debugController = [[DebuggerController alloc] init];
-  [_debugController setDevicePath:[appDelegate devicePath]];
-  [_debugController setDelegate:self];
-  if ([self isOldNewtonSelected] == NO) {
-    _debugController.useBisyncFrames = YES;
-  }
-  [appDelegate startThreadForController:_debugController];
+  [self downloadWithIntegrityCheck:YES];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -341,7 +347,7 @@
                                      NSLocalizedString(@"Continue Download", @"Continue Download"),
                                      NSLocalizedString(@"Stop Download", @"Stop Download"),
                                      nil);
-  if (result == 0) {
+  if (result == NSCancelButton) {
     [_debugController cancel];
   }
 }
@@ -387,7 +393,22 @@
 }
 
 - (void)dismissDownloadPanel {
-  [NSApp stopModal];
+  if ([downloadPanel isKeyWindow] == YES) {
+    [NSApp stopModal];
+  }
+}
+
+- (void)presentIntegrityFailedDialog {
+  [self dismissDownloadPanel];
+  
+  NSInteger result = NSRunAlertPanel(NSLocalizedString(@"Important", @"Important"),
+                                     NSLocalizedString(@"Unable to read valid manufacturer and/or hardware type. Continue anyway?", @"Unable to read valid manufacturer and/or hardware type. Continue anyway?"),
+                                     NSLocalizedString(@"Continue Download", @"Continue Download"),
+                                     NSLocalizedString(@"Stop Download", @"Stop Download"),
+                                     nil);
+  if (result == NSOKButton) {
+    [self downloadWithIntegrityCheck:NO];
+  }
 }
 
 - (NSString *) humanStringForBytes:(double)bytes {
@@ -518,6 +539,12 @@
 
 - (void) debuggerControllerDidFinish:(DebuggerController *)controller {
   [self performSelectorOnMainThread:@selector(dismissDownloadPanel)
+                         withObject:nil
+                      waitUntilDone:NO];
+}
+
+- (void) debuggerControllerFailedIntegrityChecks:(DebuggerController *)controller {
+  [self performSelectorOnMainThread:@selector(presentIntegrityFailedDialog)
                          withObject:nil
                       waitUntilDone:NO];
 }

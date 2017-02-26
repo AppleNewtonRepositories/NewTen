@@ -43,6 +43,14 @@ enum {
 
 @implementation DebuggerController
 
+- (id) init {
+  self = [super init];
+  if (self != nil) {
+    _useIntegrityChecks = YES;
+  }
+  return self;
+}
+
 - (void) dealloc {
   if (_devicePath) {
     [_devicePath release], _devicePath = nil;
@@ -76,6 +84,14 @@ enum {
 
 - (BOOL) useBisyncFrames {
   return _useBisyncFrames;
+}
+
+- (void) setUseIntegrityChecks:(BOOL)useIntegrityChecks {
+  _useIntegrityChecks = useIntegrityChecks;
+}
+
+- (BOOL) useIntegrityChecks {
+  return _useIntegrityChecks;
 }
 
 - (void) setDelegate:(id<DebuggerControllerDelegate>)delegate {
@@ -302,22 +318,48 @@ enum {
   return addr;
 }
 
-- (void) retrieveHardwareInfo {
+- (BOOL) retrieveHardwareInfo {
   uint32_t *recvData = (uint32_t *)&_recvBuf[1];
   
   // Read gROMManufacturer
   [self sendReadMemoryCommandWithAddress:0x000013f0 length:4];
   _romManufacturer = HTONL(recvData[0]);
-  
+
+  if (_useIntegrityChecks == YES) {
+    switch (_romManufacturer) {
+      case 0x01000000:
+      case 0x10000100:
+      case 0x01000200:
+        break;
+      default:
+        return NO;
+    }
+  }
+
   // Read gHardwareType
   [self sendReadMemoryCommandWithAddress:0x000013ec length:4];
   _hardwareType = HTONL(recvData[0]);
+  
+  if (_useIntegrityChecks == YES) {
+    switch (_hardwareType) {
+      case 0x10002000:
+      case 0x10003000:
+      case 0x10004000:
+      case 0x10001000:
+      case 0x00726377:
+        break;
+      default:
+        return NO;
+    }
+  }
+
   
   // Read gROMVersion
   [self sendReadMemoryCommandWithAddress:0x000013dc length:4];
   _romVersion = HTONL(recvData[0]);
   
   _romSize = [self determineROMSize];
+  return YES;
 }
 
 #pragma mark - Initial handshaking
@@ -463,7 +505,11 @@ enum {
     [self handleHandshake];
     
     [delegate debuggerController:self updatedStatusMessage:NSLocalizedString(@"Detecting Newton type...", @"Detecting Newton type...")];
-    [self retrieveHardwareInfo];
+    BOOL success = [self retrieveHardwareInfo];
+    if (success == NO) {
+      [delegate debuggerControllerFailedIntegrityChecks:self];
+      goto bail;
+    }
     
     NSString *romVerison = [self descriptionForROMVersion:_romVersion];
     NSString *manufacturer = [self descriptionForManufacturer:_romManufacturer];

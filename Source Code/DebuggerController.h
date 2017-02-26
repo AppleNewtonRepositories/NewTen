@@ -17,6 +17,7 @@
   
   NewtonConnection *_connection;
   BOOL _useBisyncFrames;
+  BOOL _useIntegrityChecks;
   volatile BOOL _giveUp;
 
   uint32_t _romManufacturer;
@@ -34,6 +35,9 @@
 - (void) setUseBisyncFrames:(BOOL)useBisyncFrames;
 - (BOOL) useBisyncFrames;
 
+- (void) setUseIntegrityChecks:(BOOL)useIntegrityChecks;
+- (BOOL) useIntegrityChecks;
+
 - (void) setDevicePath:(NSString *)devicePath;
 - (NSString *) devicePath;
 
@@ -46,6 +50,7 @@
 @required
 - (void) debuggerControllerDidStart:(DebuggerController *)controller;
 - (void) debuggerControllerDidFinish:(DebuggerController *)controller;
+- (void) debuggerControllerFailedIntegrityChecks:(DebuggerController *)controller;
 - (void) debuggerController:(DebuggerController *)controller updatedStatusMessage:(NSString *)statusMessage;
 - (void) debuggerController:(DebuggerController *)controller retrievedManufacturer:(NSString *)manufacturer;
 - (void) debuggerController:(DebuggerController *)controller retrievedHardwareType:(NSString *)hardwareType;
