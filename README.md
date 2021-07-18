@@ -17,6 +17,6 @@ In this sheet, tap "Serial Debugger", and use this app to start downloading the 
 
 ### Download
 
-A pre-built binary can be downloaded from https://www.dropbox.com/s/jvf7ym0jnb7ador/NewTen.zip?dl=0
+A pre-built binary can be downloaded from [the releases page](https://github.com/pablomarx/NewTen/releases).
 
 Requires an Intel Mac running Mac OS X 10.6 or above.
