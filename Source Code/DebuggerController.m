@@ -266,6 +266,8 @@ enum {
         return @"MessagePad (Junior)";
       }
     }
+    case 0x00706120:
+      return @"Siemens NotePhone";
     case 0x00726377:
     {
       if (manufacturer == 0x01000200) {
